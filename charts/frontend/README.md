@@ -1,6 +1,6 @@
-# Regtech Frontend
+# RegTech Frontend
 
-Helm chart to deploy a small application to explore Typescript, Vite, and React.
+Helm chart to deploy a RegTech-related frontend applications.
 
 See [SBL Frontend](https://github.com/cfpb/sbl-frontend/) for more information.
 
