@@ -1,0 +1,7 @@
+apiVersion: v2
+name: secret-provider-class
+description: A Helm Chart to deploy SecretsProviderClass object
+
+type: application
+
+version: 0.1.0
