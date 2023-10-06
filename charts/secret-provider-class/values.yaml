@@ -1,0 +1,32 @@
+# Additional Information:
+# - https://secrets-store-csi-driver.sigs.k8s.io/concepts
+# - https://github.com/aws/secrets-store-csi-driver-provider-aws
+
+# Deploys a single `SecretProviderClass`
+# - A single SPC may be used to spawn one or many secrets
+# - A secret MUST be mounted by a `Pod` to be generated
+#   - This means you need to define the `Secret` in `volumes:` and `volumeMounts:`
+#   - In must respectable public HelmCharts there is a method to do so via `extraVolumes` and `extraVolumeMounts`, or similarly named.
+secretProvider:
+  enabled: false
+  provider: aws
+  name: name-of-the-SecretProviderClass
+#  secretObjects:
+#    - data:
+#      - key: user
+#        objectName: application_user
+#      - key: password
+#        objectName: application_password
+#      secretName: application-admin-credentials
+#      type: Opaque
+#  parameters:
+#    objects: |
+#      - objectName: "path/to/secretsmanager/secret"
+#        objectType: "secretsmanager"
+#        jmesPath:
+#            # If either the 'path' or the 'objectAlias' fields contain a hyphen, then they must be escaped with a single quote
+#            # path and objectAlias are required when using jmesPath
+#            - path: "user"
+#              objectAlias: "application_user"
+#            - path: "password"
+#              objectAlias: "application_password"
