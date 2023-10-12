@@ -1,0 +1,7 @@
+apiVersion: v2
+name: sbl-api
+description: A Helm chart for RegTech's APIs
+
+type: application
+
+version: 0.1.0
