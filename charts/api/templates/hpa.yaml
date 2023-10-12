@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "sbl-api.fullname" . }}
+  name: {{ include "regtech-api.fullname" . }}
   labels:
-    {{- include "sbl-api.labels" . | nindent 4 }}
+    {{- include "regtech-api.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "sbl-api.fullname" . }}
+    name: {{ include "regtech-api.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

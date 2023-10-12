@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sbl-api.fullname" . }}
+  name: {{ include "regtech-api.fullname" . }}
   labels:
-    {{- include "sbl-api.labels" . | nindent 4 }}
+    {{- include "regtech-api.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "sbl-api.selectorLabels" . | nindent 6 }}
+      {{- include "regtech-api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "sbl-api.selectorLabels" . | nindent 8 }}
+        {{- include "regtech-api.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "sbl-api.serviceAccountName" . }}
+      serviceAccountName: {{ include "regtech-api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
