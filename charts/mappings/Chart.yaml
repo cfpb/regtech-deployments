@@ -1,0 +1,7 @@
+apiVersion: v2
+name: mappings
+description: A Helm Chart to deploy Mapping objects
+
+type: application
+
+version: 0.1.0

@@ -1,0 +1,17 @@
+{{- if .Values.enabled -}}
+{{- $values := .Values -}}
+{{- range $mapping := .Values.mappings -}}
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: {{ $mapping.host }}
+  namespace: {{ $values.target_namespace }}
+spec:
+  ambassador_id:
+  - {{ $values.ambassador_id }}
+  host: {{ $mapping.host }}{{ $values.domain_suffix }}
+  prefix: {{ $mapping.prefix }}
+  service: {{ $mapping.service }}
+{{ end }}
+{{- end }}
