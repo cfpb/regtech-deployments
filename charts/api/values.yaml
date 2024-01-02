@@ -81,3 +81,13 @@ volumeMounts: []
 env: []
 
 envFrom: []
+
+configs:
+  keycloak:
+    url:
+    realm:
+    client:
+  db:
+    scheme:
+    
+
