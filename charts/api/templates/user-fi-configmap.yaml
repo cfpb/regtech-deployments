@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: user-fi-configmap
+  name: {{ include "regtech-api.fullname" . }}
 data:
   KC_URL: {{ .Values.configs.keycloak.url }}
   KC_REALM: {{ .Values.configs.keycloak.realm }}
