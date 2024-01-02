@@ -10,4 +10,3 @@ data:
   TOKEN_URL: {{ .Values.configs.keycloak.url }}/realms/{{ .Values.configs.keycloak.realm }}/protocol/openid-connect/token
   CERTS_URL: {{ .Values.configs.keycloak.url }}/realms/{{ .Values.configs.keycloak.realm }}/protocol/openid-connect/certs
   AUTH_CLIENT: {{ .Values.configs.keycloak.client }}
-  INST_DB_SCHEME: {{ .values.configs.db.scheme }}

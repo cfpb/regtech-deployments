@@ -87,7 +87,5 @@ configs:
     url:
     realm:
     client:
-  db:
-    scheme:
     
 
