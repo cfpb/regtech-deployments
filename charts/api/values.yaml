@@ -82,10 +82,8 @@ env: []
 
 envFrom: []
 
-configs:
-  keycloak:
-    url:
-    realm:
-    client:
-    
+configmap:
+  enabled:
+  name:
+  data:
 
