@@ -5,6 +5,7 @@ metadata:
 data:
   KC_URL: {{ .Values.configs.keycloak.url }}
   KC_REALM: {{ .Values.configs.keycloak.realm }}
+  KC_REALM_URL: {{ .Values.configs.keycloak.url }}/realms/{{ .Values.configs.keycloak.realm }}
   KC_REALM_ADMIN_URL: {{ .Values.configs.keycloak.url }}/admin/realms/{{ .Values.configs.keycloak.realm }}
   AUTH_URL: {{ .Values.configs.keycloak.url }}/realms/{{ .Values.configs.keycloak.realm }}/protocol/openid-connect/auth
   TOKEN_URL: {{ .Values.configs.keycloak.url }}/realms/{{ .Values.configs.keycloak.realm }}/protocol/openid-connect/token
