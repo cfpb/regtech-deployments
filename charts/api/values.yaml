@@ -83,7 +83,7 @@ env: []
 envFrom: []
 
 configmap:
-  enabled:
-  name:
-  data:
+  enabled: false
+  name: ""
+  data: {}
 
