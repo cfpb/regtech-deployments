@@ -81,3 +81,9 @@ volumeMounts: []
 env: []
 
 envFrom: []
+
+configmap:
+  enabled: false
+  name: ""
+  data: {}
+
