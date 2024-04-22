@@ -5,13 +5,14 @@
 apiVersion: getambassador.io/v2
 kind: Mapping
 metadata:
-  name: {{ $mapping.host }}
+  name: {{ $mapping.host }}-{{ $mapping.port }} 
   namespace: {{ $values.target_namespace }}
 spec:
   ambassador_id:
   - {{ $values.ambassador_id }}
   host: {{ $mapping.host }}{{ $values.domain_suffix }}
   prefix: {{ $mapping.prefix }}
-  service: {{ $mapping.service }}
+  rewrite: {{ $mapping.rewrite }}
+  service: {{ $mapping.service }}:{{ $mapping.port }}
 {{ end }}
 {{- end }}

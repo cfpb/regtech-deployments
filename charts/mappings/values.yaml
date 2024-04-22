@@ -3,9 +3,16 @@ domain_suffix: ""
 ambassador_id: "--apiVersion-v3alpha1-only--default"
 target_namespace: ""
 mappings: []
+#  https://www.getambassador.io/docs/emissary/latest/topics/using/rewrites
+#  # We added the `rewrite` default of `/` to support additional use cases
+#  # We need the port spec to add uniqueness to the mapping object name
 #  - host: foo
 #    prefix: /
 #    service: foo
+#    rewrite: /
+#    port: 8080
 #  - host: bar
 #    prefix: /
 #    service: bar
+#    rewrite: /
+#    port: 8080
