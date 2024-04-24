@@ -1,5 +1,4 @@
 enabled: false
-domain_suffix: ""
 ambassador_id: "--apiVersion-v3alpha1-only--default"
 target_namespace: ""
 mappings: []
