@@ -117,14 +117,17 @@ RUN rm -fr /etc/sysctl* /etc/modprobe.d /etc/modules /etc/mdev.conf /etc/acpi
 RUN rm -fr /root 
 RUN rm -f /etc/fstab
 RUN find /bin /etc /lib /sbin /usr -xdev -type l -exec test ! -e {} \; -delete 
-# RUN find / -type f -iname '*apk*' -xdev -delete
-# RUN find / -type d -iname '*apk*' -print0 -xdev | xargs -0 rm -r -- 
 RUN find "$APP_DIR" -type d -exec chmod 500 {} +
 RUN find "$APP_DIR" -type f -exec chmod 400 {} +
 RUN chmod -R u=rwx "$DATA_DIR/"
 RUN chown $APP_USER:$APP_USER -R $APP_DIR $DATA_DIR
 RUN find / \( -type f -o -type l \) -iname chown -xdev -delete 
 RUN rm $0
+
+# Need to circle back on these, they were causing issues
+#RUN rm /var/cache/apk/*
+#RUN find / -type f -iname '*apk*' -xdev -delete
+#RUN find / -type d -iname '*apk*' -print0 -xdev | xargs -0 rm -r -- 
 
 # EXPOSE 8080
 USER $APP_USER
