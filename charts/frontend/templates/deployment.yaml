@@ -40,7 +40,7 @@ spec:
           env:
             {{- toYaml .Values.env | nindent 12 }}
           envFrom:
-            {{- toYaml .Values.envFrom | nindent 12 }}
+            {{- tpl (toYaml .Values.envFrom) . | nindent 12 }}
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
