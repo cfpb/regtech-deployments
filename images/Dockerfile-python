@@ -18,6 +18,10 @@ usage being monitored, intercepted, recorded, read, copied, captured or otherwis
 authorized personnel, including but not limited to employees, contractors and/or agents of the United States Government.\n\
 ***************************************************************************************************************************\n\"" >> /etc/profile
 
+# Create the sbl user. This user is later passed to the
+# appdev service with the USER instruction
+RUN addgroup -S sbl && adduser -SH sbl -s /sbin/nologin -G sbl
+
 RUN delgroup mail mail &>/dev/null && \ 
     deluser postmaster &>/dev/null && \
     deluser adm  && \
