@@ -112,6 +112,9 @@ RUN find /bin /etc /lib /sbin /usr -xdev \( \
   -iname sudo \
   \) -delete 
 
+# Security Baseline - Alpine Req 7 - Ensure sticky bit is set on public directory
+RUN chmod +t /tmp
+
 # RUN rm -fr /etc/init.d /lib/rc /etc/conf.d /etc/inittab /etc/runlevels /etc/rc.conf /etc/logrotate.d
 RUN rm -fr /etc/sysctl* /etc/modprobe.d /etc/modules /etc/mdev.conf /etc/acpi 
 RUN rm -fr /root 
