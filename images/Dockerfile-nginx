@@ -1,0 +1,77 @@
+FROM nginx:1.24-alpine
+WORKDIR /usr/src/app
+ARG DOCKER_TAG="latest"
+
+ENV APP_USER=sbl
+ENV HOSTNAME cfpb-nginx-alpine
+ENV ENV="/etc/profile"
+
+RUN echo "printf \" ***************************************************************************************************************************\n\
+This is a Consumer Financial Protection Bureau (CFPB) information system. The CFPB is an independent agency\n\
+of the United States Government. CFPB information systems are provided for the processing of official information\n\
+only. Unauthorized or improper use of this system may result in administrative action, as well as civil and\n\
+criminal penalties. Because this is a CFPB information system, you have no reasonable expectation of privacy\n\
+regarding any communication or data transiting or stored on this information system. All data contained on CFPB\n\
+information systems is owned by CFPB and your use of the CFPB information system serves as your consent to your\n\
+usage being monitored, intercepted, recorded, read, copied, captured or otherwise audited in any manner, by\n\
+authorized personnel, including but not limited to employees, contractors and/or agents of the United States Government.\n\
+***************************************************************************************************************************\n\"" >> /etc/profile
+
+RUN delgroup mail mail &>/dev/null && \ 
+    deluser postmaster &>/dev/null && \
+    deluser adm  && \
+    deluser lp &>/dev/null && \
+    deluser news &>/dev/null && \
+    deluser uucp &>/dev/null && \
+    deluser man &>/dev/null && \
+    deluser cron &>/dev/null && \
+    deluser ftp &>/dev/null && \
+    deluser sshd &>/dev/null && \
+    deluser at &>/dev/null && \
+    deluser squid &>/dev/null && \
+    deluser xfs &>/dev/null && \
+    deluser games &>/dev/null && \
+    deluser cyrus &>/dev/null && \
+    deluser vpopmail &>/dev/null && \
+    deluser ntp &>/dev/null && \
+    deluser smmsp &>/dev/null && \
+    deluser guest &>/dev/null && \
+    deluser operator &>/dev/null && \
+    deluser halt &>/dev/null && \
+    deluser shutdown &>/dev/null && \
+    deluser sync &>/dev/null && \
+    deluser bin &>/dev/null && \
+    deluser nobody &>/dev/null && \
+    deluser mail &>/dev/null; exit 0;
+
+RUN sed -i '1d' /etc/passwd && \
+    sed -i '1 i\root:x:0:0:root:/root:/bin/nologin' /etc/passwd 
+ 
+RUN apk update && \
+    apk upgrade
+ 
+SHELL ["/bin/sh", "-o", "pipefail", "-c"]
+ 
+RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/main" > /etc/apk/repositories && \
+    echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/community" >> /etc/apk/repositories 
+ 
+RUN rm -fr /var/spool/cron /etc/crontabs /etc/periodic
+
+RUN find / -xdev -type d -perm +0002 -exec chmod o-w {} + \ 
+   && find / -xdev -type f -perm +0002 -exec chmod o-w {} + \ 
+   && chmod 777 /tmp/ 
+
+RUN find /bin /etc /lib /sbin /usr -xdev \( \
+  -iname hexdump -o \    
+  -iname chgrp -o \
+  -iname ln -o \
+  -iname od -o \
+  -iname strings -o \
+  -iname su -o \
+  -iname sudo \
+  \) -delete
+
+RUN rm -fr /etc/sysctl* /etc/modprobe.d /etc/modules /etc/mdev.conf /etc/acpi 
+RUN rm -fr /root 
+RUN rm -f /etc/fstab
+RUN find /bin /etc /lib /sbin /usr -xdev -type l -exec test ! -e {} \; -delete 
