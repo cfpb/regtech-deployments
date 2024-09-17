@@ -1,16 +1,5 @@
 FROM registry.access.redhat.com/ubi8/python-312:latest
 
-#LABEL maintainer="Hmda and Lamin"
-
-#LABEL com.redhat.component="ubi8-container" \
-#      name="ubi8" \
-#      version="latest"
-
-#ARG USERNAME=noroot
-#ARG USER_UID=1000
-#ARG USER_GID=$USER_UID
-
-# FIPS (fails in the build process)
 USER root
 RUN yum install openssl -y && \
     /usr/bin/openssl version && \
@@ -30,17 +19,6 @@ information systems is owned by CFPB and your use of the CFPB information system
 usage being monitored, intercepted, recorded, read, copied, captured or otherwise audited in any manner, by\n\
 authorized personnel, including but not limited to employees, contractors and/or agents of the United States Government.\n\
 ***************************************************************************************************************************\n\"" >> /etc/bashrc
-
-# RUN echo "printf \" ***************************************************************************************************************************\n\
-# This is a Consumer Financial Protection Bureau (CFPB) information system. The CFPB is an independent agency\n\
-# of the United States Government. CFPB information systems are provided for the processing of official information\n\
-# only. Unauthorized or improper use of this system may result in administrative action, as well as civil and\n\
-# criminal penalties. Because this is a CFPB information system, you have no reasonable expectation of privacy\n\
-# regarding any communication or data transiting or stored on this information system. All data contained on CFPB\n\
-# information systems is owned by CFPB and your use of the CFPB information system serves as your consent to your\n\
-# usage being monitored, intercepted, recorded, read, copied, captured or otherwise audited in any manner, by\n\
-# authorized personnel, including but not limited to employees, contractors and/or agents of the United States Government.\n\
-# ***************************************************************************************************************************\n\"" >> /etc/issue
 
 RUN groupdel -f bin && \
     groupdel -f daemon && \
@@ -101,7 +79,6 @@ RUN sed -i 's/shadow/& rounds=5000/' /etc/pam.d/system-auth && \
     chown root.root /bin/write && \
     chown root.root /usr/bin/write && \
     echo "localpkg_gpgcheck=True" >> /etc/dnf/dnf.conf && \
-#    echo "nameserver 8.8.8.8" >> /etc/resolv.conf 
     echo "* hard maxlogins 10" >> /etc/security/limits.conf && \
     sed -i 's:^PASS_MIN_DAYS.*$:PASS_MIN_DAYS 1:g' /etc/login.defs && \
     sed -i 's:^PASS_MAX_DAYS.*$:PASS_MAX_DAYS 60:g' /etc/login.defs && \
@@ -142,11 +119,7 @@ RUN sed -i 's/shadow/& rounds=5000/' /etc/pam.d/system-auth && \
 
     sed -i 's/session optional                   pam_lastlog.so silent noupdate showfailed/session required         pam_lastlog.so silent noupdate showfailed/g' /etc/pam.d/postlogin
 
-#RUN sed -i '1d' /etc/passwd && \
-#    sed -i '1 i\root:x:0:0:root:/root:/bin/nologin' /etc/passwd
 
 
-
-# Create the user
+# Create sbl group and user, using Dockerfiles will switch to USER sbl once full setup is done
 RUN groupadd --system sbl && useradd --system --create-home sbl -s /sbin/nologin -g sbl
-#RUN useradd -u 1000 sbl
