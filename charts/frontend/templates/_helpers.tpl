@@ -39,15 +39,17 @@ helm.sh/chart: {{ include "regtech-frontend.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/name: {{ include "regtech-frontend.fullname" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: regtech-sbl
 {{- end }}
 
 {{/*
 Selector labels
 */}}
 {{- define "regtech-frontend.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "regtech-frontend.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "regtech-frontend.fullname" . }}
+app.kubernetes.io/instance: regtech-sbl
 {{- end }}
 
 {{/*

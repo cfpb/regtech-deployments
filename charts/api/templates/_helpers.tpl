@@ -39,15 +39,17 @@ helm.sh/chart: {{ include "regtech-api.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/name: {{ include "regtech-api.fullname" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: regtech-sbl
 {{- end }}
 
 {{/*
 Selector labels
 */}}
 {{- define "regtech-api.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "regtech-api.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "regtech-api.fullname" . }}
+app.kubernetes.io/instance: regtech-sbl
 {{- end }}
 
 {{/*
