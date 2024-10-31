@@ -5,7 +5,7 @@
 apiVersion: getambassador.io/v2
 kind: Mapping
 metadata:
-  name: {{ $mapping.host }}-{{ lower (randAlphaNum 8) }}
+  name: {{ $mapping.service }}
   namespace: {{ $values.target_namespace }}
 spec:
 {{ toYaml $mapping | indent 2 }}
