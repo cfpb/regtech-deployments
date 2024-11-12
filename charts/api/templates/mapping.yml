@@ -6,7 +6,9 @@ metadata:
 spec:
   ambassador_id:
     {{- toYaml .Values.mapping.ambassador_id | nindent 4 }}
-  host: {{ .Values.mapping.host }}
+  host: {{ tpl .Values.mapping.host . }}
   prefix: {{ .Values.mapping.prefix }}
   service: {{ include "regtech-api.fullname" . }}
+  rewrite: {{ .Values.mapping.rewrite }}
+  timeout_ms: {{ .Values.mapping.timeout_ms }}
 {{- end }}
