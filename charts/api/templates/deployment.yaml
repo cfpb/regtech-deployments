@@ -40,12 +40,20 @@ spec:
           env:
             {{- toYaml .Values.env | nindent 12 }}
           envFrom:
-            {{- tpl (toYaml .Values.envFrom) . | nindent 12 }}
+          {{- range .Values.envFrom }}
+            {{- if .configMapRef }}
+            - configMapRef:
+                name: {{ include "regtech-api.fullname" $ }}
+            {{- else if .secretRef }}
+            - secretRef:
+                name: {{ .secretRef.name }}
+            {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
               protocol: TCP
-          {{- if not .Values.healthcheck.enabled }}
+          {{- if .Values.healthcheck.enabled }}
           livenessProbe:
             httpGet:
               path: {{ .Values.healthcheck.path }}
