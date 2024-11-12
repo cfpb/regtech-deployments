@@ -2,16 +2,25 @@ apiVersion: v1
 entries:
   mappings:
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.521-06:00"
+    created: "2024-11-12T11:59:28.107615-07:00"
     description: A Helm Chart to deploy Mapping objects
-    digest: 92e4bc71ccc9fc091771cdfe5fffdd2f97671f0fbed01a76718c3bd23345439f
+    digest: 509e7c2b27d96effca925fd93d1fa65e906588cf1445cf68ac35fc27fa7e9c6f
+    name: mappings
+    type: application
+    urls:
+    - https://cfpb.github.io/regtech-deployments/mappings-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    created: "2024-11-12T11:59:28.107407-07:00"
+    description: A Helm Chart to deploy Mapping objects
+    digest: ea2f85e7d89a9882013b254936f876a766e49165d870f230f571f5e896435beb
     name: mappings
     type: application
     urls:
     - https://cfpb.github.io/regtech-deployments/mappings-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.520911-06:00"
+    created: "2024-11-12T11:59:28.107191-07:00"
     description: A Helm Chart to deploy Mapping objects
     digest: d6605fe8cb313752af89d3c61fdbfd03dee0c02ac5884ef0b81e120fa83c38e8
     name: mappings
@@ -20,7 +29,7 @@ entries:
     - https://cfpb.github.io/regtech-deployments/mappings-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.520822-06:00"
+    created: "2024-11-12T11:59:28.10697-07:00"
     description: A Helm Chart to deploy Mapping objects
     digest: 88551014e311f8231d31a1a44241658d3df83d1feefb568d33f6d77509e5bd60
     name: mappings
@@ -30,7 +39,7 @@ entries:
     version: 0.1.0
   regtech-frontend:
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.521846-06:00"
+    created: "2024-11-12T11:59:28.109636-07:00"
     description: A Helm chart for Kubernetes
     digest: 78d73478814f70bc1a219e8cec642eba6c3e6b43d75e921cfc3a70ae6a6e459e
     name: regtech-frontend
@@ -39,7 +48,16 @@ entries:
     - https://cfpb.github.io/regtech-deployments/regtech-frontend-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.521631-06:00"
+    created: "2024-11-12T11:59:28.109315-07:00"
+    description: A Helm chart for Kubernetes
+    digest: 43fbd2789da1cdf7842f958f99c562818105e3d54688f9c856e946705468b17f
+    name: regtech-frontend
+    type: application
+    urls:
+    - https://cfpb.github.io/regtech-deployments/regtech-frontend-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    created: "2024-11-12T11:59:28.108964-07:00"
     description: A Helm chart for Kubernetes
     digest: c1301c06b182343bb2fbc8ab31366dd39ec71fd5bc76d139097aa34368b9d85a
     name: regtech-frontend
@@ -48,7 +66,7 @@ entries:
     - https://cfpb.github.io/regtech-deployments/regtech-frontend-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.521425-06:00"
+    created: "2024-11-12T11:59:28.10793-07:00"
     description: A Helm chart for Kubernetes
     digest: db6c35fcc37c58fc46f8356659b7077d7e74e31dd92d1fd145a82d7f5cceba5b
     name: regtech-frontend
@@ -58,7 +76,16 @@ entries:
     version: 0.1.0
   sbl-api:
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.522232-06:00"
+    created: "2024-11-12T11:59:28.110686-07:00"
+    description: A Helm chart for RegTech's APIs
+    digest: 2c81f6c86ecdfb6d74edd356d8e8d16ac49d38e15cfce134f9827255b5785084
+    name: sbl-api
+    type: application
+    urls:
+    - https://cfpb.github.io/regtech-deployments/sbl-api-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    created: "2024-11-12T11:59:28.110408-07:00"
     description: A Helm chart for RegTech's APIs
     digest: 4b022e8a82ddd56e2cd675b706f8cb509d1de893d921e57abaea0a81045402c8
     name: sbl-api
@@ -67,7 +94,7 @@ entries:
     - https://cfpb.github.io/regtech-deployments/sbl-api-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.522044-06:00"
+    created: "2024-11-12T11:59:28.110006-07:00"
     description: A Helm chart for RegTech's APIs
     digest: 8f20a0d1b877aca0db21c0c1c511c034900deeec1da805d7d342cb5e1b8d5d7e
     name: sbl-api
@@ -77,12 +104,21 @@ entries:
     version: 0.1.0
   secret-provider-class:
   - apiVersion: v2
-    created: "2024-10-31T12:28:59.522356-06:00"
+    created: "2024-11-12T11:59:28.111078-07:00"
     description: A Helm Chart to deploy SecretsProviderClass object
-    digest: fc504c2ff01c0d92782e6ef0624f5d2ed4e2474981b1e137592d8383313e0540
+    digest: 505f99f60e07974cb5e7c6950264e69578107cfa925dc4cf303f564c9dd8b68d
+    name: secret-provider-class
+    type: application
+    urls:
+    - https://cfpb.github.io/regtech-deployments/secret-provider-class-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    created: "2024-11-12T11:59:28.110886-07:00"
+    description: A Helm Chart to deploy SecretsProviderClass object
+    digest: d3614e0596dfafa7ef6a9abd6afdcc2554eeb0127e9976316e0a6c7b5a8917ed
     name: secret-provider-class
     type: application
     urls:
     - https://cfpb.github.io/regtech-deployments/secret-provider-class-0.1.0.tgz
     version: 0.1.0
-generated: "2024-10-31T12:28:59.520359-06:00"
+generated: "2024-11-12T11:59:28.106646-07:00"
