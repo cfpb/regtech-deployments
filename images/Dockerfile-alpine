@@ -1,0 +1,137 @@
+FROM alpine:3.18
+#APP_DIR is the name of the home directory for the dedicated user.
+#APP_USER is the name of the dedicated user account that will be used to run the application.
+#CONF_DIR is the name of the configuration directory for the application. 
+#DATA_DIR is the name of the data directory for the application. 
+
+ENV APP_DIR=sbl
+ENV APP_USER=sbl
+ENV CONF_DIR=/sbl-conf
+ENV DATA_DIR=/sbl-data
+ENV HOSTNAME cfpb-alpine
+RUN apk update && \
+    apk upgrade && \
+    rm /var/cache/apk/*
+
+ENV ENV="/etc/profile"
+RUN echo "printf \" ***************************************************************************************************************************\n\
+This is a Consumer Financial Protection Bureau (CFPB) information system. The CFPB is an independent agency\n\
+of the United States Government. CFPB information systems are provided for the processing of official information\n\
+only. Unauthorized or improper use of this system may result in administrative action, as well as civil and\n\
+criminal penalties. Because this is a CFPB information system, you have no reasonable expectation of privacy\n\
+regarding any communication or data transiting or stored on this information system. All data contained on CFPB\n\
+information systems is owned by CFPB and your use of the CFPB information system serves as your consent to your\n\
+usage being monitored, intercepted, recorded, read, copied, captured or otherwise audited in any manner, by\n\
+authorized personnel, including but not limited to employees, contractors and/or agents of the United States Government.\n\
+***************************************************************************************************************************\n\"" >> /etc/profile
+
+RUN delgroup mail mail &>/dev/null && \ 
+    deluser postmaster &>/dev/null && \
+    deluser adm  && \
+    deluser lp &>/dev/null && \
+    deluser news &>/dev/null && \
+    deluser uucp &>/dev/null && \
+    deluser man &>/dev/null && \
+    deluser cron &>/dev/null && \
+    deluser ftp &>/dev/null && \
+    deluser sshd &>/dev/null && \
+    deluser at &>/dev/null && \
+    deluser squid &>/dev/null && \
+    deluser xfs &>/dev/null && \
+    deluser games &>/dev/null && \
+    deluser cyrus &>/dev/null && \
+    deluser vpopmail &>/dev/null && \
+    deluser ntp &>/dev/null && \
+    deluser smmsp &>/dev/null && \
+    deluser guest &>/dev/null && \
+    deluser operator &>/dev/null && \
+    deluser halt &>/dev/null && \
+    deluser shutdown &>/dev/null && \
+    deluser sync &>/dev/null && \
+    deluser bin &>/dev/null && \
+    deluser nobody &>/dev/null && \
+    deluser mail &>/dev/null; exit 0;
+RUN sed -i '1d' /etc/passwd && \
+    sed -i '1 i\root:x:0:0:root:/root:/bin/nologin' /etc/passwd
+
+SHELL ["/bin/sh", "-o", "pipefail", "-c"]
+
+RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/main" > /etc/apk/repositories && \
+    echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/community" >> /etc/apk/repositories 
+
+
+# RUN curl -s https://github.cfpb.gov/raw/app-ops/dynamic_proxy/main/certs/demo.cfpb.gov.crt -o /etc/ssl/certs/cfpb.crt
+# RUN curl -s https://github.cfpb.gov/raw/app-ops/dynamic_proxy/main/certs/demo.cfpb.gov.key -o /etc/ssl/certs/cfpb.key
+# COPY man-cfpb.crt /etc/ssl/certs/cfpb.crt
+# COPY cfpb.key /etc/ssl/certs/cfpb.key
+
+# RUN adduser -S $HMDA nginx && \
+#     addgroup -S $HMDA && \
+#    addgroup $HMDA $HMDA && \
+#    touch /run/nginx.pid && \
+#    # chown -R $HMDA:$HMDA && \
+#    chmod 0755 /home/$HMDA
+
+RUN adduser -s /bin/true -u 1000 -D -h $APP_DIR $APP_USER
+RUN mkdir -p $CONF_DIR $DATA_DIR && \
+    chown -R $APP_USER:$APP_USER $CONF_DIR $DATA_DIR && \
+    chmod 0700 $APP_DIR $CONF_DIR $DATA_DIR 
+
+RUN rm -fr /var/spool/cron /etc/crontabs /etc/periodic 
+
+RUN find /sbin /usr/sbin \
+  ! -type d -a ! -name apk -a ! -name ln \
+  -delete 
+
+RUN find / -xdev -type d -perm +0002 -exec chmod o-w {} + \
+   && find / -xdev -type f -perm +0002 -exec chmod o-w {} + \
+   && chmod 777 /tmp/ 
+
+RUN chown $APP_USER:root /tmp/
+
+RUN sed -i -r "/^($APP_USER|root|nobody)/!d" /etc/group \
+  && sed -i -r "/^($APP_USER|root|nobody)/!d" /etc/passwd
+
+RUN sed -i -r 's#^(.*):[^:]*$#\1:/sbin/nologin#' /etc/passwd 
+RUN while IFS=: read -r username _; do passwd -l "$username"; done < /etc/passwd || true 
+RUN find /bin /etc /lib /sbin /usr -xdev -type f -regex '.*-$' -exec rm -f {} \;
+
+RUN find /bin /etc /lib /sbin /usr -xdev -type d \
+  -exec chown root:root {} \; \
+  -exec chmod 0755 {} \; 
+
+RUN find /bin /etc /lib /sbin /usr -xdev -type f -a \( -perm +4000 -o -perm +2000 \) -delete
+
+RUN find /bin /etc /lib /sbin /usr -xdev \( \
+  -iname hexdump -o \
+  -iname chgrp -o \
+  -iname ln -o \
+  -iname od -o \
+  -iname strings -o \
+  -iname su -o \
+  -iname sudo \
+  \) -delete 
+
+# Security Baseline - Alpine Req 7 - Ensure sticky bit is set on public directory
+RUN chmod +t /tmp
+
+# RUN rm -fr /etc/init.d /lib/rc /etc/conf.d /etc/inittab /etc/runlevels /etc/rc.conf /etc/logrotate.d
+RUN rm -fr /etc/sysctl* /etc/modprobe.d /etc/modules /etc/mdev.conf /etc/acpi 
+RUN rm -fr /root 
+RUN rm -f /etc/fstab
+RUN find /bin /etc /lib /sbin /usr -xdev -type l -exec test ! -e {} \; -delete 
+RUN find "$APP_DIR" -type d -exec chmod 500 {} +
+RUN find "$APP_DIR" -type f -exec chmod 400 {} +
+RUN chmod -R u=rwx "$DATA_DIR/"
+RUN chown $APP_USER:$APP_USER -R $APP_DIR $DATA_DIR
+RUN find / \( -type f -o -type l \) -iname chown -xdev -delete 
+RUN rm $0
+
+# Need to circle back on these, they were causing issues
+#RUN rm /var/cache/apk/*
+#RUN find / -type f -iname '*apk*' -xdev -delete
+#RUN find / -type d -iname '*apk*' -print0 -xdev | xargs -0 rm -r -- 
+
+# EXPOSE 8080
+USER $APP_USER
+HEALTHCHECK NONE
