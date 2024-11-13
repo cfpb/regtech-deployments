@@ -12,14 +12,10 @@ If release name contains chart name it will be used as a full name.
 */}}
 {{- define "regtech-api.fullname" -}}
 {{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+  {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
+  {{- $name := default .Chart.Name .Values.nameOverride }}
+  {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
@@ -62,3 +58,20 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Decide if this is a regtech-sbl release, and if not, prepend the release name.
+
+This is used for mapping host names to determine if the mapping should be 
+created with a release specific host URL, or with the default/normal one.
+This will allow releases to deployed that have a separate "path" without 
+impacting other releases.
+*/}}
+{{- define "prefix" -}}
+{{- if ne .Release.Name "regtech-sbl" -}}
+  {{ .Release.Name | printf "%s-" }}
+{{- else -}}
+  {{printf "" }}
+{{- end -}}
+{{- end -}}

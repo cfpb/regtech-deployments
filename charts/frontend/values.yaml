@@ -1,4 +1,3 @@
-fullnameOverride: "sbl-frontend"
 image:
   repository: ""
   pullPolicy: IfNotPresent
