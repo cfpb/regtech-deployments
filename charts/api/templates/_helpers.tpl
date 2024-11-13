@@ -12,14 +12,10 @@ If release name contains chart name it will be used as a full name.
 */}}
 {{- define "regtech-api.fullname" -}}
 {{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+  {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
+  {{- $name := default .Chart.Name .Values.nameOverride }}
+  {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
@@ -39,15 +35,17 @@ helm.sh/chart: {{ include "regtech-api.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/name: {{ include "regtech-api.fullname" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: regtech-sbl
 {{- end }}
 
 {{/*
 Selector labels
 */}}
 {{- define "regtech-api.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "regtech-api.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "regtech-api.fullname" . }}
+app.kubernetes.io/instance: regtech-sbl
 {{- end }}
 
 {{/*
@@ -60,3 +58,20 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Decide if this is a regtech-sbl release, and if not, prepend the release name.
+
+This is used for mapping host names to determine if the mapping should be 
+created with a release specific host URL, or with the default/normal one.
+This will allow releases to deployed that have a separate "path" without 
+impacting other releases.
+*/}}
+{{- define "prefix" -}}
+{{- if ne .Release.Name "regtech-sbl" -}}
+  {{ .Release.Name | printf "%s-" }}
+{{- else -}}
+  {{printf "" }}
+{{- end -}}
+{{- end -}}
