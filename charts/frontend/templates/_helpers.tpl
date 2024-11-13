@@ -66,3 +66,11 @@ Create the name of the service account to use
   {{printf "" }}
 {{- end -}}
 {{- end -}}
+
+{{- define "apiPrefix" -}}
+{{- if and .Values.global (ne .Release.Name .Values.global.chartName) }}
+  {{ .Release.Name | printf "%s-" }}
+{{- else -}}
+  {{printf "" }}
+{{- end -}}
+{{- end -}}
