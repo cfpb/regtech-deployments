@@ -30,7 +30,7 @@ spec:
       volumes:
         {{- toYaml .Values.volumes | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "regtech-frontend.fullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -40,7 +40,15 @@ spec:
           env:
             {{- toYaml .Values.env | nindent 12 }}
           envFrom:
-            {{- tpl (toYaml .Values.envFrom) . | nindent 12 }}
+          {{- range .Values.envFrom }}
+            {{- if .configMapRef }}
+            - configMapRef:
+                name: {{ include "regtech-frontend.fullname" $ }}
+            {{- else if .secretRef }}
+            - secretRef:
+                name: {{ .secretRef.name }}
+            {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort }}

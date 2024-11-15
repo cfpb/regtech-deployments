@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.configmap.name }}
+  name: {{ include "regtech-frontend.fullname" . }}
 data:
   {{- tpl (toYaml .Values.configmap.data) . | nindent 2 }}
 {{- end }}
