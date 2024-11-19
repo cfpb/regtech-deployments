@@ -6,10 +6,11 @@
 apiVersion: getambassador.io/v2
 kind: Mapping
 metadata:
-  name: {{ tpl $mapping.service $ }}
+  name: {{ $mapping.name }}
   namespace: {{ $values.target_namespace }}
 spec:
-{{- tpl (toYaml $mapping) $ | nindent 2 }}
+{{- $filteredMapping := omit $mapping "name"}}
+{{- tpl (toYaml $filteredMapping) $ | nindent 2 }}
   ambassador_id:
   - {{ $values.ambassador_id }}
 {{ end }}
