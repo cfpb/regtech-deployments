@@ -1,0 +1,125 @@
+FROM registry.access.redhat.com/ubi8/python-312:latest
+
+USER root
+RUN yum install openssl -y && \
+    /usr/bin/openssl version && \
+    yum install which ncurses procps-ng -y && \
+    yum install policycoreutils -y && \
+    yum update -y && \
+    yum clean all && \
+    /usr/bin/fips-mode-setup --enable --no-bootcfg
+
+RUN echo "printf \" ***************************************************************************************************************************\n\
+This is a Consumer Financial Protection Bureau (CFPB) information system. The CFPB is an independent agency\n\
+of the United States Government. CFPB information systems are provided for the processing of official information\n\
+only. Unauthorized or improper use of this system may result in administrative action, as well as civil and\n\
+criminal penalties. Because this is a CFPB information system, you have no reasonable expectation of privacy\n\
+regarding any communication or data transiting or stored on this information system. All data contained on CFPB\n\
+information systems is owned by CFPB and your use of the CFPB information system serves as your consent to your\n\
+usage being monitored, intercepted, recorded, read, copied, captured or otherwise audited in any manner, by\n\
+authorized personnel, including but not limited to employees, contractors and/or agents of the United States Government.\n\
+***************************************************************************************************************************\n\"" >> /etc/bashrc
+
+RUN groupdel -f bin && \
+    groupdel -f daemon && \
+    groupdel -f sys && \
+    groupdel -f adm && \
+    groupdel -f tty && \
+    groupdel -f disk && \
+    groupdel -f lp && \
+    groupdel -f mem && \
+    groupdel -f kmem && \
+    groupdel -f wheel && \
+    groupdel -f cdrom && \
+    groupdel -f mail && \
+    groupdel -f man && \
+    groupdel -f dialout && \
+    groupdel -f floppy && \
+    groupdel -f games && \
+    groupdel -f tape && \
+    groupdel -f video && \
+    groupdel -f ftp && \
+    groupdel -f lock && \
+    groupdel -f audio && \
+    groupdel -f users && \
+    groupdel -f nobody && \
+    groupdel -f utmp && \
+    groupdel -f utempter && \
+    groupdel -f tss && \
+    groupdel -f dbus && \
+    groupdel -f input && \
+    groupdel -f kvm && \
+    groupdel -f render && \
+    groupdel -f systemd-journal && \
+    groupdel -f systemd-coredump && \
+    groupdel -f systemd-resolve && \
+    userdel -f bin && \
+    userdel -f daemon && \
+    userdel -f adm && \
+    userdel -f lp && \
+    userdel -f sync && \
+    userdel -f shutdown && \
+    userdel -f halt && \
+    userdel -f mail && \
+    userdel -f operator && \
+    userdel -f games && \
+    userdel -f ftp && \
+    userdel -f nobody && \
+    userdel -f tss && \
+    userdel -f dbus && \
+    userdel -f systemd-coredump && \
+    userdel -f systemd-resolve
+
+RUN sed -i 's/shadow/& rounds=5000/' /etc/pam.d/system-auth && \
+    sed -i 's/shadow/& rounds=5000/' /etc/pam.d/password-auth && \
+    touch /var/log/messages && \
+    chmod 640 /var/log/messages && \
+    sed -i 's/,hmac-sha1-etm@openssh.com//g' /etc/crypto-policies/back-ends/openssh.config && \
+    sed -i 's/aes256-gcm@openssh.com,//g; s/aes256-cbc,aes128-gcm@openssh.com,//g; s/,aes128-cbc//g;' /etc/crypto-policies/back-ends/openssh.config && \
+    chown root.root /bin/write && \
+    chown root.root /usr/bin/write && \
+    echo "localpkg_gpgcheck=True" >> /etc/dnf/dnf.conf && \
+    echo "* hard maxlogins 10" >> /etc/security/limits.conf && \
+    sed -i 's:^PASS_MIN_DAYS.*$:PASS_MIN_DAYS 1:g' /etc/login.defs && \
+    sed -i 's:^PASS_MAX_DAYS.*$:PASS_MAX_DAYS 60:g' /etc/login.defs && \
+    sed -i 's:^PASS_MIN_LEN.*$:PASS_MIN_LEN 12:g' /etc/login.defs && \ 
+    echo "FAIL_DELAY 4" >> /etc/login.defs && \
+    sed -i 's/022/077/g' /etc/login.defs && \ 
+    sed -i 's/umask 022/umask 077/g' /etc/bashrc && \
+    sed -i 's/INACTIVE=-1/INACTIVE=90/g' /etc/default/useradd && \ 
+    sed -i 's/# ucredit = 0/ucredit = -1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# lcredit = 0/lcredit = -1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# dcredit = 0/dcredit = -1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# ocredit = 0/ocredit = -1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# dictcheck = 1/dictcheck = 1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# maxclassrepeat = 0/maxclassrepeat = 4/g' /etc/security/pwquality.conf && \
+    sed -i 's/# maxrepeat = 0/maxrepeat = 3/g' /etc/security/pwquality.conf && \
+    sed -i 's/# difok = 1/difok = 1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# difok = 1/difok = 1/g' /etc/security/pwquality.conf && \
+    sed -i 's/# minlen = 8/minlen = 12/g' /etc/security/pwquality.conf && \
+    sed -i 's/# fail_interval = 900/fail_interval = 7200/g' /etc/security/faillock.conf && \
+    sed -i 's/# silent/silent/g' /etc/security/faillock.conf && \
+    sed -i 's/# deny = 3/deny = 3/g' /etc/security/faillock.conf && \
+    sed -i 's/# audit/audit/g' /etc/security/faillock.conf && \
+    sed -i 's/# even_deny_root/even_deny_root/g' /etc/security/faillock.conf && \
+    sed -i 's/# unlock_time = 600/unlock_time = 0/g' /etc/security/faillock.conf && \
+    sed -i 's/# dir = \/var\/run\/faillock/dir = \/var\/log\/faillock/g' /etc/security/faillock.conf  && \
+    
+    sed -i '5 a auth \t required \t pam_faillock.so preauth dir=/var/log/faillock silent audit deny=5 even_deny_root fail_interval=7200 unlock_time=0' /etc/pam.d/password-auth && \
+    sed -i '6 a auth \t required \t pam_faillock.so authfail dir=/var/log/faillock unlock_time=0' /etc/pam.d/password-auth && \
+    sed -i '10 a account \t required \t pam_faillock.so' /etc/pam.d/password-auth && \
+    sed -i '12 a password \t required \t pam_pwhistory.so use_authtok remember=10 retry=3' /etc/pam.d/password-auth && \
+    sed -i 's/requisite/required/g' /etc/pam.d/password-auth && \
+    
+    sed -i '5 a auth \t required \t pam_faillock.so preauth dir=/var/log/faillock silent audit deny=5 even_deny_root fail_interval=7200 unlock_time=0' /etc/pam.d/system-auth && \
+    sed -i '6 a auth \t required \t pam_faillock.so authfail dir=/var/log/faillock unlock_time=0' /etc/pam.d/system-auth && \
+    sed -i '10 a account \t required \t pam_faillock.so' /etc/pam.d/system-auth && \
+    sed -i '12 a password \t required \t pam_pwhistory.so use_authtok remember=10 retry=3' /etc/pam.d/system-auth && \
+    sed -i 's/requisite/required/g' /etc/pam.d/system-auth && \
+
+    sed -i 's/session optional                   pam_lastlog.so silent noupdate showfailed/session required         pam_lastlog.so silent noupdate showfailed/g' /etc/pam.d/postlogin
+
+
+
+# Create sbl group and user, using Dockerfiles will switch to USER sbl once full setup is done
+RUN groupadd --system sbl && useradd --system --create-home sbl -s /sbin/nologin -g sbl
