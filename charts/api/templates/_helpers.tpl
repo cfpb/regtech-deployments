@@ -70,8 +70,8 @@ impacting other releases.
 */}}
 {{- define "prefix" -}}
 {{- if ne .Release.Name "regtech-sbl" -}}
-  {{ .Release.Name | printf "%s-" }}
+{{- .Release.Name | printf "%s-" -}}
 {{- else -}}
-  {{printf "" }}
+{{- printf "" -}}
 {{- end -}}
 {{- end -}}
