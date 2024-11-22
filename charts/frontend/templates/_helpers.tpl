@@ -69,9 +69,9 @@ impacting other releases.
 */}}
 {{- define "prefix" -}}
 {{- if ne .Release.Name "regtech-sbl" -}}
-  {{ .Release.Name | printf "%s-" }}
+{{- .Release.Name | printf "%s-" -}}
 {{- else -}}
-  {{printf "" }}
+{{- printf "" -}}
 {{- end -}}
 {{- end -}}
 
@@ -90,8 +90,8 @@ releases.
 */}}
 {{- define "apiPrefix" -}}
 {{- if and .Values.global (ne .Release.Name .Values.global.chartName) }}
-  {{ .Release.Name | printf "%s-" }}
+{{- .Release.Name | printf "%s-" -}}
 {{- else -}}
-  {{printf "" }}
+{{- printf "" -}}
 {{- end -}}
 {{- end -}}
