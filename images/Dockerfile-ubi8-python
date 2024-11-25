@@ -70,6 +70,10 @@ RUN groupdel -f bin && \
     userdel -f systemd-coredump && \
     userdel -f systemd-resolve
 
+RUN yum update -y && \
+    yum remove -y httpd npm && \
+    yum clean all
+
 RUN sed -i 's/shadow/& rounds=5000/' /etc/pam.d/system-auth && \
     sed -i 's/shadow/& rounds=5000/' /etc/pam.d/password-auth && \
     touch /var/log/messages && \
