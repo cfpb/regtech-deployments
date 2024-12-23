@@ -4,44 +4,44 @@ on:
   push:
     branches:
       - main
-#jobs:
-#  build-publish-image:
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: './images'
-#    steps:
-#      - name: 'Checkout GitHub Action'
-#        uses: actions/checkout@main
-#
-#      - name: 'Login to GitHub Container Registry'
-#        uses: docker/login-action@v1
-#        with:
-#          registry: ghcr.io
-#          username: ${{github.actor}}
-#          password: ${{secrets.GITHUB_TOKEN}}
+jobs:
+  build-publish-image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './images'
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
 
-#      - name: 'Build and Publish alpine image'
-#        run: |
-#          docker build -t ghcr.io/cfpb/regtech/sbl/alpine:3.18 -f Dockerfile-alpine .
-#          docker push ghcr.io/cfpb/regtech/sbl/alpine:3.18
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
 
-#      - name: 'Build and Publish python-alpine image'
-#        run: |
-#          docker build -t ghcr.io/cfpb/regtech/sbl/python-alpine:3.12 -f Dockerfile-python-alpine .
-#          docker push ghcr.io/cfpb/regtech/sbl/python-alpine:3.12
+      - name: 'Build and Publish alpine image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/alpine:3.18 -f Dockerfile-alpine .
+          docker push ghcr.io/cfpb/regtech/sbl/alpine:3.18
 
-#      - name: 'Build and Publish nginx-alpine image'
-#        run: |
-#          docker build -t ghcr.io/cfpb/regtech/sbl/nginx-alpine:1.27 -f Dockerfile-nginx-alpine .
-#          docker push ghcr.io/cfpb/regtech/sbl/nginx-alpine:1.27
+      - name: 'Build and Publish python-alpine image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/python-alpine:3.12 -f Dockerfile-python-alpine .
+          docker push ghcr.io/cfpb/regtech/sbl/python-alpine:3.12
 
-#      - name: 'Build and Publish node-js-alpine image'
-#        run: |
-#          docker build -t ghcr.io/cfpb/regtech/sbl/node-js-alpine:3.20 -f Dockerfile-node-js-alpine .
-#          docker push ghcr.io/cfpb/regtech/sbl/node-js-alpine:3.20
+      - name: 'Build and Publish nginx-alpine image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/nginx-alpine:1.27 -f Dockerfile-nginx-alpine .
+          docker push ghcr.io/cfpb/regtech/sbl/nginx-alpine:1.27
 
-#      - name: 'Build and Publish python-ubi8 image'
-#        run: |
-#          docker build -t ghcr.io/cfpb/regtech/sbl/python-ubi8:3.12 -f Dockerfile-python-ubi8 .
-#          docker push ghcr.io/cfpb/regtech/sbl/python-ubi8:3.12
+      - name: 'Build and Publish node-js-alpine image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/node-js-alpine:3.20 -f Dockerfile-node-js-alpine .
+          docker push ghcr.io/cfpb/regtech/sbl/node-js-alpine:3.20
+
+      - name: 'Build and Publish python-ubi8 image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/python-ubi8:3.12 -f Dockerfile-python-ubi8 .
+          docker push ghcr.io/cfpb/regtech/sbl/python-ubi8:3.12
