@@ -1,0 +1,27 @@
+name: Build Base Images
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-images:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './images'
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: 'Build apline image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/alpine:3.18 -f Dockerfile-alpine .
