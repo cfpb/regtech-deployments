@@ -16,11 +16,12 @@ We now have a GHA pipeline to build and publish these base images to the GHCR.
 
 #### Core Image tagging
 We now add a unique tag to each published set of images that are included in the `build_and_publish_images` workflow.
-Tagging is using standard git sha shortend and appended to the image tag.
+Tagging is using github builtin property `github.run_attempt` and appended to the image tag.
 
-Example image with new tag format: `ghcr.io/cfpb/regtech/sbl/python-alpine:3.12_xxxxxxxx`
+Example image with new tag format: `ghcr.io/cfpb/regtech/sbl/python-alpine:3.12_xx`
 
 This will allow applications to pin to specific builds in the event a new change is introduced to latest that doesn't play nice with the application.
+The standard build image tag is still available to support apps pinning to the latest.
 
 ---
 
