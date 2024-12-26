@@ -41,3 +41,6 @@ jobs:
       - name: 'Build python-ubi8 image'
         run: |
           docker build -t ghcr.io/cfpb/regtech/sbl/python-ubi8:3.12_${{github.run_attempt}} -f Dockerfile-python-ubi8 .
+
+          docker build -t ghcr.io/cfpb/regtech/sbl/python-ubi8:do_not_use -f Dockerfile-python-ubi8 .
+          docker push ghcr.io/cfpb/regtech/sbl/python-ubi8:do_not_use
