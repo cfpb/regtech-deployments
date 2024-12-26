@@ -22,6 +22,11 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
+      - name: 'Build test image'
+        run: |
+          docker build -t ghcr.io/cfpb/regtech/sbl/test:do_not_use -f Dockerfile-alpine .
+          docker push ghcr.io/cfpb/regtech/sbl/test:do_not_use
+
       - name: 'Build alpine image'
         run: |
           docker build -t ghcr.io/cfpb/regtech/sbl/alpine:3.18_${{github.run_attempt}} -f Dockerfile-alpine .
@@ -41,6 +46,3 @@ jobs:
       - name: 'Build python-ubi8 image'
         run: |
           docker build -t ghcr.io/cfpb/regtech/sbl/python-ubi8:3.12_${{github.run_attempt}} -f Dockerfile-python-ubi8 .
-
-          docker build -t ghcr.io/cfpb/regtech/sbl/python-ubi8:do_not_use -f Dockerfile-python-ubi8 .
-          docker push ghcr.io/cfpb/regtech/sbl/python-ubi8:do_not_use
