@@ -40,10 +40,11 @@ It is not immutable, so each workflow run with build and push the same tag. This
 
 ### Image Tagging
 We now publish 3 tagged versions of each core image during in the GHA workflow for all main branch merges.
-They are as follows:
-*image_name*:vMAJ.MIN.PATCH
-*image_name*:vMAJ.MIN.PATCH_*unique_build*
-*image_name*:latest
+They are as follows
+
+- *image_name*:vMAJ.MIN.PATCH
+- *image_name*:vMAJ.MIN.PATCH_*unique_build*
+- *image_name*:latest
 
 ---
 
