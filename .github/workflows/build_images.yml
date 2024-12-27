@@ -18,7 +18,7 @@ jobs:
       - name: test version get
         id: version
         run: |
-          echo "TAG_NAME=$(cat ../charts/api/Chart.yaml | grep '^version.*$' | sed 's/version: //')" >> $GITHUB_ENV
+          echo "TAG_NAME=$(cat ../charts/api/Chart.yaml | grep '^version.*$' | sed 's/version: //' | tr -d '\"' )" >> $GITHUB_ENV
           #cat ../charts/api/Chart.yaml | grep '^version.*$' | sed 's/version: //' >> $GITHUB_ENV
           #sudo apt install ack
           #echo "IMAGE_VERSION=$(echo $(ack -o '^version.*:\K.*$' ../charts/api/Chart.yaml | sed 's/^ //g' | sed 's/ $//g'))" >> $GITHUB_ENV
