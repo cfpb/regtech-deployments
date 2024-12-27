@@ -38,6 +38,13 @@ It is not immutable, so each workflow run with build and push the same tag. This
 
 > ***Note*** This ↑ is `Public Preview` as of `12/26/24`
 
+### Image Tagging
+We now publish 3 tagged versions of each core image during in the GHA workflow for all main branch merges.
+They are as follows:
+*image_name*:vMAJ.MIN.PATCH
+*image_name*:vMAJ.MIN.PATCH_*unique_build*
+*image_name*:latest
+
 ---
 
 ## Local Machine build and push core images (old depracated method)
