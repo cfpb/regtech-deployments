@@ -18,13 +18,15 @@ jobs:
       - name: test version get
         id: version
         run: |
-          sudo apt install ack
-          echo "IMAGE_VERSION=$(echo $(ack -o '^version.*:\K.*$' ../charts/api/Chart.yaml | sed 's/^ //g' | sed 's/ $//g'))" >> $GITHUB_ENV
+          echo "TAG_NAME=$(cat ../charts/api/Chart.yaml | grep '^version.*$' | sed 's/version: //')" >> $GITHUB_ENV
+          #cat ../charts/api/Chart.yaml | grep '^version.*$' | sed 's/version: //' >> $GITHUB_ENV
+          #sudo apt install ack
+          #echo "IMAGE_VERSION=$(echo $(ack -o '^version.*:\K.*$' ../charts/api/Chart.yaml | sed 's/^ //g' | sed 's/ $//g'))" >> $GITHUB_ENV
 
       - name: 'Echo test'
         run: |
           pwd
-          env
+          echo ${{ steps.version.outputs.TAG_NAME }}
 
       - name: 'Login to GitHub Container Registry'
         uses: docker/login-action@v3
