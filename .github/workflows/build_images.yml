@@ -18,6 +18,7 @@ jobs:
       - name: test version get
         id: version
         run: |
+          sudo apt install ack
           echo "IMAGE_VERSION=$(echo $(ack -o '^version.*:\K.*$' ../charts/api/Chart.yaml | sed 's/^ //g' | sed 's/ $//g') | tr -d '"' )" >> $GITHUB_OUTPUT
 
       - name: 'Echo test'
