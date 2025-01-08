@@ -41,7 +41,10 @@ jobs:
 
       - name: 'Build node-js-alpine image'
         run: |
-          docker build -t ghcr.io/cfpb/regtech/sbl/node-js-alpine:3.20_${{github.run_attempt}} -f Dockerfile-node-js-alpine .
+          #docker build -t ghcr.io/cfpb/regtech/sbl/node-js-alpine:3.20_${{github.run_attempt}} -f Dockerfile-node-js-alpine .
+
+          docker build -t ghcr.io/cfpb/regtech/sbl/node-js-alpine-latest:v3.20.0 -f Dockerfile-node-js-alpine .
+          docker push ghcr.io/cfpb/regtech/sbl/node-js-alpine-latest --all-tags
 
       - name: 'Build python-ubi8 image'
         run: |
