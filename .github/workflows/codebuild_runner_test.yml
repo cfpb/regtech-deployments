@@ -1,0 +1,11 @@
+name: GHA Codebuild Runner Test
+on: [push]
+jobs:
+  test1:
+    runs-on:
+      - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - run: |
+          echo "running GHS workflow ${{ github.event.number }}"
+          echo -e "dumping\n${{ toJson(runner) }}"
+
