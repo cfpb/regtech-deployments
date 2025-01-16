@@ -10,6 +10,6 @@ jobs:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - run: |
+          echo "force trigger"
           echo "running GHS workflow ${{ github.event.number }}"
           echo -e "dumping\n${{ toJson(runner) }}"
-
