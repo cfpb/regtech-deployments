@@ -12,4 +12,4 @@ jobs:
       - run: |
           echo "force trigger"
           echo "running GHS workflow ${{ github.event.number }}"
-          echo -e "dumping\n${{ toJson(runner) }}"
+          echo -e "dumping\n${{ toJson(github) }}"
