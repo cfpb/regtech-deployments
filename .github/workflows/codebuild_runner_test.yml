@@ -32,6 +32,22 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          ls -alt >events_test
+          cat > test_events << EOF
+          [
+            {
+              "timestamp": 1433190184356,
+              "message": "Example Event 1"
+            },
+            {
+              "timestamp": 1433190184358,
+              "message": "Example Event 2"
+            },
+            {
+              "timestamp": 1433190184360,
+              "message": "Example Event 3"
+            }
+          ]
+          EOF
+
           aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events file://events_test
 
