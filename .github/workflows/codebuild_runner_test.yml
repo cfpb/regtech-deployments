@@ -12,6 +12,9 @@ jobs:
     runs-on:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+
       - name: echo
         run: |
           echo "force trigger again"
