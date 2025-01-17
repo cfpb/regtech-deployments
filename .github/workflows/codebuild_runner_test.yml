@@ -1,4 +1,4 @@
-name: GHA Codebuild Runner Test
+name: GHACodebuildRunnerTest
 
 on:
   pull_request:
