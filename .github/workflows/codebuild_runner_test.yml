@@ -32,18 +32,19 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          export CURRENT_EVENT_TIME=$(date +%s%3N)
           cat > test_events << EOF
           [
             {
-              "timestamp": 1433190184356,
+              "timestamp": $CURRENT_EVENT_TIME,
               "message": "Example Event 1"
             },
             {
-              "timestamp": 1433190184358,
+              "timestamp": $CURRENT_EVENT_TIME,
               "message": "Example Event 2"
             },
             {
-              "timestamp": 1433190184360,
+              "timestamp": $CURRENT_EVENT_TIME,
               "message": "Example Event 3"
             }
           ]
