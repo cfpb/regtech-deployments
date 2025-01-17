@@ -1,0 +1,54 @@
+name: GHACodebuildRunnerTest
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test1:
+    env:
+      CLOUDWATCH_LOGGROUP_NAME: '/aws/codebuild/cfpb-regtech-gha-test-1'
+      CLOUDWATCH_LOGSTREAM_NAME: ${{ github.repository }}-${{ github.workflow }}-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
+    runs-on:
+      - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+
+      - name: echo
+        run: |
+          echo "force trigger again"
+          echo -e "running GHA workflow ${{ github.event.number }}\nbuild: ${{ github.run_id }}\nattempt: ${{ github.run_attempt }}"
+
+      - name: create log stream
+        run: |
+          aws logs create-log-stream --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME
+
+      - name: list buckets
+        run: |
+          aws s3api list-buckets --region us-east-1 --output json
+
+      - name: put events
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          export CURRENT_EVENT_TIME=$(date +%s%3N)
+          cat > test_events << EOF
+          [
+            {
+              "timestamp": $CURRENT_EVENT_TIME,
+              "message": "Example Event 1"
+            },
+            {
+              "timestamp": $CURRENT_EVENT_TIME,
+              "message": "Example Event 2"
+            },
+            {
+              "timestamp": $CURRENT_EVENT_TIME,
+              "message": "Example Event 3"
+            }
+          ]
+          EOF
+
+          aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events file://test_events
+
