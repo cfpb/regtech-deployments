@@ -15,4 +15,4 @@ jobs:
           echo -e "running GHA workflow ${{ github.event.number }}\nbuild: ${{ github.run_id }}\nattempt: ${{ github.run_attempt }}"
       - name: listclusters
         run: |
-          aws secretsmanager list-clusters --region us-east-1 --output json
+          aws secretsmanager list-secrets --region us-east-1 --output json
