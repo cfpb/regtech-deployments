@@ -25,5 +25,5 @@ jobs:
       - name: put events
         run: |
           gh run view ${{ github.run_id }} --log >runevents
-          aws logs put-log-events --log-group-name cfpb-regtech-gha-test-1 --log-stream-name ${{ github.run_id }}${{ github.run_n    umber }}${{ github.run_attempt }} --log-events runevents
+          aws logs put-log-events --log-group-name cfpb-regtech-gha-test-1 --log-stream-name ${{ github.run_id }}${{ github.run_number }}${{ github.run_attempt }} --log-events runevents
 
