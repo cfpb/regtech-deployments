@@ -9,8 +9,10 @@ jobs:
     runs-on:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - run: |
+      - name: echo
+        run: |
           echo "force trigger again"
           echo -e "running GHA workflow ${{ github.event.number }}\nbuild: ${{ github.run_id }}\nattempt: ${{ github.run_attempt }}"
-      - listclusters: |
+      - name: listclusters:
+        run: |
           aws eks list-clusters --region us-east-1 --output json
