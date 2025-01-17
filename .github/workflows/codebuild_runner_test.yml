@@ -6,6 +6,9 @@ on:
 
 jobs:
   test1:
+    env:
+      CLOUDWATCH_LOGGROUP_NAME: '/aws/codebuild/cfpb-regtech-gha-test-1'
+      CLOUDWATCH_LOGSTREAM_NAME: ${{ github.run_id }}${{ github.run_number }}${{ github.run_attempt }}
     runs-on:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
@@ -16,7 +19,7 @@ jobs:
 
       - name: create log stream
         run: |
-          aws logs create-log-stream --log-group-name cfpb-regtech-gha-test-1 --log-stream-name ${{ github.run_id }}${{ github.run_number }}${{ github.run_attempt }}
+          aws logs create-log-stream --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME
 
       - name: list buckets
         run: |
@@ -25,5 +28,5 @@ jobs:
       - name: put events
         run: |
           gh run view ${{ github.run_id }} --log >runevents
-          aws logs put-log-events --log-group-name cfpb-regtech-gha-test-1 --log-stream-name ${{ github.run_id }}${{ github.run_number }}${{ github.run_attempt }} --log-events runevents
+          aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events runevents
 
