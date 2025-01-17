@@ -1,4 +1,4 @@
-name: GHACodebuildRunnerTest
+name: GHA Codebuild Runner Test
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ jobs:
   test1:
     env:
       CLOUDWATCH_LOGGROUP_NAME: '/aws/codebuild/cfpb-regtech-gha-test-1'
-      CLOUDWATCH_LOGSTREAM_NAME: ${{ github.repository }}_${{ github.workflow }}_${{ github.run_id }}_${{ github.run_number }}_${{ github.run_attempt }}
+      CLOUDWATCH_LOGSTREAM_NAME: ${{ github.repository }}-${{ github.workflow }}-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
     runs-on:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
