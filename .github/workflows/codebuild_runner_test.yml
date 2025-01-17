@@ -33,5 +33,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           ls -alt >events_test
-          aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events events_test
+          aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events file://events_test
 
