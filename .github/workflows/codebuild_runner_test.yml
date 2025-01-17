@@ -26,6 +26,8 @@ jobs:
           aws s3api list-buckets --region us-east-1 --output json
 
       - name: put events
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh run view ${{ github.run_id }} --log >runevents
           aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events runevents
