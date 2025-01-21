@@ -64,9 +64,9 @@ jobs:
       - name: check aws secrets
         id: check-aws-secrets
         run: |
-          echo -e "::add-mask::${{ env.TEST_SECRET_1 }}"
-          echo -e "::add-mask::${{ env.TEST_SECRET_2 }}"
-          echo -e "${{ env.TEST_SECRET_3 }}"
+          echo -e "print test-secret-1 ::add-mask::${{ env.TEST_SECRET_1 }} ... mask applied"
+          echo -e "print test-secret-2 ::add-mask::${{ env.TEST_SECRET_2 }} ... mask applied"
+          echo -e "print test-secret-3 ${{ env.TEST_SECRET_3 }}" ... no mask applied
 
       - name: check env context
         id: check-env-context
