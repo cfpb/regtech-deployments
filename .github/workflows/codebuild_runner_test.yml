@@ -63,7 +63,13 @@ jobs:
 
       - name: check aws secrets
         id: check-aws-secrets
+        # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#example-masking-a-string
+        description: checking aws secrets for security behavior 
         run: |
+          echo -e "masking MUST be done for secrets pulled from aws unlike the github secret context which are auto-masked.\n"
+          echo -e "::add-mask::${{ env.TEST_SECRET_1 }} ... mask applied test-secret-1 ${{ env.TEST_SECRET_1 }}"
+          echo -e "::add-mask::${{ env.TEST_SECRET_2 }} ... mask applied test-secret-2 ${{ env.TEST_SECRET_2 }}"
+          echo -e "::add-mask::${{ env.TEST_SECRET_3 }} ... mask applied test-secret-3 ${{ env.TEST_SECRET_3 }}"
           echo -e "print test-secret-1 ::add-mask::${{ env.TEST_SECRET_1 }} ... mask applied"
           echo -e "print test-secret-2 ::add-mask::${{ env.TEST_SECRET_2 }} ... mask applied"
           echo -e "print test-secret-3 ${{ env.TEST_SECRET_3 }}" ... no mask applied
