@@ -66,10 +66,10 @@ jobs:
         run: |
           echo -e "::add-mask::${{ env.TEST_SECRET_1 }} <- registering test-secret-1 with add mask"
           echo -e "::add-mask::${{ env.TEST_SECRET_2 }} <- registering test-secret-2 with add mask"
-          echo -e "${{ env.TEST_SECRET_3 }} <- not registering test-secret-3 with add mask"
+          echo -e "::add-mask::${{ env.TEST_SECRET_3 }} <- registering test-secret-3 with add mask"
           echo -e "show test-secret-1 ${{ env.TEST_SECRET_1 }}"
-          echo -e "show test-secret-2 ${{ env.TEST_SECRET_2 }}"
-          echo -e "show test-secret-3 ${{ env.TEST_SECRET_3 }}"
+          echo -e "::add-mask::${{ env.TEST_SECRET_2 }} show test-secret-2"
+          echo -e "show test-secret-3 ::add-mask::${{ env.TEST_SECRET_3 }}"
 
       - name: check env context
         id: check-env-context
