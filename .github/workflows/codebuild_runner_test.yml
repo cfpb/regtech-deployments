@@ -69,7 +69,7 @@ jobs:
           echo -e "any_text ::add-mask::${{ env.TEST_SECRET_2 }} ... this will not be masked test-secret-2 ${{ env.TEST_SECRET_2 }}"
           echo -e "${{ env.TEST_SECRET_3 }} <- registering the secret with add mask"
           echo -e "${{ env.TEST_SECRET_3 }} ... is test-secret-3 masked?"
-          echo -e "is it really masked? ${{ env.TEST_SECRET_3 }"
+          echo -e "is it really masked? ${{ env.TEST_SECRET_3 }}"
 
       - name: check env context
         id: check-env-context
