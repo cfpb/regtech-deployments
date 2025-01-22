@@ -65,13 +65,10 @@ jobs:
         id: check-aws-secrets
         # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#example-masking-a-string
         run: |
-          echo -e "masking MUST be done for secrets pulled from aws unlike the github secret context which are auto-masked.\n"
-          echo -e "::add-mask::${{ env.TEST_SECRET_1 }} ... mask applied test-secret-1 ${{ env.TEST_SECRET_1 }}"
-          echo -e "::add-mask::${{ env.TEST_SECRET_2 }} ... mask applied test-secret-2 ${{ env.TEST_SECRET_2 }}"
-          echo -e "::add-mask::${{ env.TEST_SECRET_3 }} ... mask applied test-secret-3 ${{ env.TEST_SECRET_3 }}"
-          echo -e "print test-secret-1 ::add-mask::${{ env.TEST_SECRET_1 }} ... mask applied"
-          echo -e "print test-secret-2 ::add-mask::${{ env.TEST_SECRET_2 }} ... mask applied"
-          echo -e "print test-secret-3 ${{ env.TEST_SECRET_3 }}" ... no mask applied
+          echo -e "::add-mask::${{ env.TEST_SECRET_1 }} ... this will be masked test-secret-1 value=${{ env.TEST_SECRET_1 }}"
+          echo -e "any_text ::add-mask::${{ env.TEST_SECRET_2 }} ... this will not be masked test-secret-2 ${{ env.TEST_SECRET_2 }}"
+          echo -e "${{ env.TEST_SECRET_3 }} <- registering the secret with add mask"
+          echo -e "any_txt  ${{ env.TEST_SECRET_3 }} ... is this masked? test-secret-3"
 
       - name: check env context
         id: check-env-context
