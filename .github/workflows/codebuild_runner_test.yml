@@ -17,7 +17,6 @@ jobs:
 
       - name: echo
         run: |
-          echo "force trigger again"
           echo -e "running GHA workflow ${{ github.event.number }}\nbuild: ${{ github.run_id }}\nattempt: ${{ github.run_attempt }}"
 
       - name: create log stream
