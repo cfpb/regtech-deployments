@@ -7,12 +7,15 @@ inputs:
 runs:
   using: "composite"
   steps:
+#    - name: Masking
+#      run: |
+#        IFS='\n' read -ra secrets <<< "${{ inputs.secrets }}"
+#        for secret in "${secrets[@]}" ; do
+#          if [[ "$secret" ]]; then
+#            echo "::add-mask::$secret ... registered"
+#          fi
+#        done
+#      shell: bash
     - name: Masking
       run: |
-        IFS='\n' read -ra secrets <<< "${{ inputs.secrets }}"
-        for secret in "${secrets[@]}" ; do
-          if [[ "$secret" ]]; then
-            echo "::add-mask::$secret ... registered"
-          fi
-        done
-      shell: bash
+        echo "::add-mask::${{ secrets }}"
