@@ -7,6 +7,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
     - name: Masking
       run: |
         IFS='\n' read -ra secrets <<< "${{ inputs.secrets }}"
