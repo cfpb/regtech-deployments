@@ -67,15 +67,6 @@ jobs:
           ref: 'test/gha-codebuild-runner'
           path: 'testing-action'
 
-      - name: foo
-        run: |
-          pwd
-          ls -alt .
-          ls -alt testing-action
-          ls -alt testing-action/.github
-          ls -alt testing-action/.github/actions
-          ls -alt testing-action/.github/actions/mask_secrets
-    
       # wrap aws secrets
       - name: Secret Masking
         uses: ./testing-action/.github/actions/mask_secrets
