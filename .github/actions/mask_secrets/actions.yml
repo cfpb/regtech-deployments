@@ -1,0 +1,18 @@
+name: 'Set environment variables'
+description: 'Configures environment variables for a workflow'
+inputs:
+  secrets:
+    description: 'List of string separated by EOL'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Masking
+      run: |
+        IFS='\n' read -ra secrets <<< "${{ inputs.secrets }}"
+        for secret in "${secrets[@]}" ; do
+          if [[ "$secret" ]]; then
+            echo "::add-mask::$secret ... registered"
+          fi
+        done
+      shell: bash

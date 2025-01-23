@@ -60,16 +60,28 @@ jobs:
             TEST_SECRET_2, cfpb/team/regtech/gha-codebuild-runner/test-secret-2
             TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
 
+      # wrap aws secrets
+      - name: Secret Masking
+        uses: ./.github/actions/mask_secrets
+        with:
+          secrets: |
+            ${{ env.TEST_SECRET_1 }}
+            ${{ env.TEST_SECRET_2 }}
+            ${{ env.TEST_SECRET_3 }}
+
       - name: check aws secrets
         id: check-aws-secrets
         # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#example-masking-a-string
         run: |
-          echo -e "::add-mask::${{ env.TEST_SECRET_1 }} <- registering test-secret-1 with add mask"
-          echo -e "::add-mask::${{ env.TEST_SECRET_2 }} <- registering test-secret-2 with add mask"
-          echo -e "::add-mask::${{ env.TEST_SECRET_3 }} <- registering test-secret-3 with add mask"
+          #echo -e "::add-mask::${{ env.TEST_SECRET_1 }} <- registering test-secret-1 with add mask"
+          #echo -e "::add-mask::${{ env.TEST_SECRET_2 }} <- registering test-secret-2 with add mask"
+          #echo -e "::add-mask::${{ env.TEST_SECRET_3 }} <- registering test-secret-3 with add mask"
           echo -e "show test-secret-1 ${{ env.TEST_SECRET_1 }}"
-          echo -e "::add-mask::${{ env.TEST_SECRET_2 }} show test-secret-2"
-          echo -e "show test-secret-3 ::add-mask::${{ env.TEST_SECRET_3 }}"
+          echo -e "show test-secret-2 ${{ env.TEST_SECRET_2 }}"
+          echo -e "show test-secret-3 ${{ env.TEST_SECRET_3 }}"
+
+          #echo -e "::add-mask::${{ env.TEST_SECRET_2 }} show test-secret-2"
+          #echo -e "show test-secret-3 ::add-mask::${{ env.TEST_SECRET_3 }}"
 
       - name: check env context
         id: check-env-context
