@@ -18,4 +18,5 @@ runs:
 #      shell: bash
     - name: Masking
       run: |
-        echo "::add-mask::${{ secrets }}"
+        echo "::add-mask::${{ inputs.secrets }}"
+      shell: bash
