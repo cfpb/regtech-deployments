@@ -70,8 +70,7 @@ jobs:
       - name: foo
         run: |
           pwd
-          cd testing-action
-          ls -altR .
+          ls -alt testing-action/.github/actions
      
       # wrap aws secrets
       - name: Secret Masking
