@@ -62,7 +62,7 @@ jobs:
 
       # wrap aws secrets
       - name: Secret Masking
-        uses: ./.github/actions/mask_secrets
+        uses: ./regtech-deployments/.github/actions/mask_secrets
         with:
           secrets: |
             ${{ env.TEST_SECRET_1 }}
