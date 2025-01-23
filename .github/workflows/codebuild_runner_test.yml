@@ -60,15 +60,22 @@ jobs:
             TEST_SECRET_2, cfpb/team/regtech/gha-codebuild-runner/test-secret-2
             TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
 
+      - name: Checkout To Path
+        uses: actions/checkout@v4
+        with:
+          repository: 'cfpb/regtech-deployments'
+          ref: 'test/gha-codebuild-runner'
+          path: 'testing-action'
+
       # wrap aws secrets
       - name: Secret Masking
         run: pwd
-        #uses: ./.github/actions/mask_secrets
-        #with:
-        #  secrets: |
-        #    ${{ env.TEST_SECRET_1 }}
-        #    ${{ env.TEST_SECRET_2 }}
-        #    ${{ env.TEST_SECRET_3 }}
+        uses: ./testing-action/.github/actions/setvars
+        with:
+          secrets: |
+            ${{ env.TEST_SECRET_1 }}
+            ${{ env.TEST_SECRET_2 }}
+            ${{ env.TEST_SECRET_3 }}
 
       - name: check aws secrets
         id: check-aws-secrets

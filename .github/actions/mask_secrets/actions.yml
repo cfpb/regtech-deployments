@@ -1,14 +1,12 @@
-name: 'Set environment variables'
-description: 'Configures environment variables for a workflow'
+name: 'Mask Secrets'
+description: 'Masking AWS Secrets'
 inputs:
   secrets:
-    description: 'List of string separated by EOL'
+    description: 'string separated by EOL'
     required: true
 runs:
   using: "composite"
   steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@v4
     - name: Masking
       run: |
         IFS='\n' read -ra secrets <<< "${{ inputs.secrets }}"
