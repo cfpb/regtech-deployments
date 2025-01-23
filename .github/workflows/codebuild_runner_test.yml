@@ -69,7 +69,6 @@ jobs:
 
       # wrap aws secrets
       - name: Secret Masking
-        run: pwd
         uses: ./testing-action/.github/actions/setvars
         with:
           secrets: |
