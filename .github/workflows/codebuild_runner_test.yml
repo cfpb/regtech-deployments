@@ -61,6 +61,7 @@ jobs:
             TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
 
       # wrap aws secrets
+      - uses: actions/checkout@v4
       - name: Secret Masking
         uses: ./regtech-deployments/.github/actions/mask_secrets
         with:
