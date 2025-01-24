@@ -11,7 +11,7 @@ runs:
       id: secure-aws-secret
       uses: aws-actions/aws-secretsmanager-get-secrets@v2
       with:
-        secret-ids: ${{ inputs.secrets }}
+        secret-ids: $(echo {{ inputs.secrets }} | tr -d '#')
 
     - name: Masking
       run: |
