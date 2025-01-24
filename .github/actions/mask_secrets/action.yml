@@ -19,8 +19,9 @@ runs:
         IFS='#' read -a secrets <<< "$MODIFIED_INPUT"
         for s in "${secrets[@]}"; do
           var=(${s//,/ })
-          val=$(eval echo \$$var[0])
-          echo "masking $val......."
-          echo -e "::add-mask::$val"
+          echo "$var ......."
+          #val=$(eval echo \$$var[0])
+          #echo "masking $val......."
+          echo -e "::add-mask::$var"
         done
       shell: bash
