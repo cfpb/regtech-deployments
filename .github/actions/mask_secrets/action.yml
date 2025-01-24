@@ -2,25 +2,15 @@ name: 'Mask Secrets'
 description: 'Masking AWS Secrets'
 inputs:
   secrets:
-    description: 'string of secrets to get separated by EOL'
+    description: 'string separated by EOL'
     required: true
 runs:
   using: "composite"
   steps:
-    - name: secure secrets from aws
-      id: secure-aws-secret
-      uses: aws-actions/aws-secretsmanager-get-secrets@v2
-      with:
-        secret-ids: ${{ inputs.secrets }}
-
     - name: Masking
       run: |
-        MODIFIED_INPUT=$(echo "${{ inputs.secrets }}" | tr '\n' '#')
-        IFS='#' read -a secrets <<< "$MODIFIED_INPUT"
-        for s in "${secrets[@]}"; do
-          var=(${s//,/ })
-          val=$(eval echo \$$var)
-          echo "register mask $var =  $val"
-          echo -e "::add-mask::${val}"
+        IFS="," read -a var <<< "${{ inputs.secrets }}"
+        for x in "${var[@]}"; do
+          echo "::add-mask::$x"
         done
       shell: bash
