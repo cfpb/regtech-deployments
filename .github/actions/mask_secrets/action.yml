@@ -17,8 +17,9 @@ runs:
       run: |
         IFS="\n,\r" read -a secrets <<< "${{ inputs.secrets }}"
         for s in "${secrets[@]}"; do
+          echo -e "INPUT == ${s}"
           segments=$(echo $s | tr "," "\n")
-          echo -e "the key is $segments[0] ${segments[0]}"
+          echo -e "KEY == ${segments[0]}"
           echo "::add-mask::${segments[0]}"
         done
       shell: bash
