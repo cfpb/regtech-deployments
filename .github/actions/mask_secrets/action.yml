@@ -18,9 +18,8 @@ runs:
         MODIFIED_INPUT=$(echo "${{ inputs.secrets }}" | tr '\n' '#')
         IFS='#' read -a secrets <<< "$MODIFIED_INPUT"
         for s in "${secrets[@]}"; do
-          segments=$(echo $s | tr "," "\n")
-          var="$( echo $segments[0] | tr -d '\n')"
-          echo "masking $var......."
-          echo -e "::add-mask::$${var}"
+          var=(${s//,/ })
+          echo "masking ${var[0]}......."
+          echo -e "::add-mask::${var[0]}"
         done
       shell: bash
