@@ -21,7 +21,7 @@ runs:
           var=(${s//,/ })
           val=$(eval echo \$$var)
           echo "register mask $var =  $val"
-          echo -e "::add-mask::${val}"
+          echo "::add-mask::$val"
         done
       shell: bash
 
@@ -31,10 +31,4 @@ runs:
         echo -e "show test-secret-1 ${{ env.TEST_SECRET_1 }}"
         echo -e "show test-secret-2 ${{ env.TEST_SECRET_2 }}"
         echo -e "show test-secret-3 ${{ env.TEST_SECRET_3 }}"
-      shell: bash
-
-    - name: Dump
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
       shell: bash
