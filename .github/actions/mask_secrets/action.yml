@@ -15,7 +15,7 @@ runs:
 
     - name: Masking
       run: |
-        IFS="\n,\r" read -a secrets <<< "${{ inputs.secrets }}"
+        IFS="\n" read -a secrets <<< "${{ inputs.secrets }}"
         for s in "${secrets[@]}"; do
           echo -e "INPUT == ${s}"
           segments=$(echo $s | tr "," "\n")
