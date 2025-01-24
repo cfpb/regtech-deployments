@@ -21,6 +21,6 @@ runs:
           segments=$(echo $s | tr "," "\n")
           var="${segments[0]}"
           echo "masking $var......."
-          echo -e "::add-mask::${var}"
+          echo -e "::add-mask::$${var}"
         done
       shell: bash
