@@ -67,19 +67,32 @@ jobs:
           ref: 'test/gha-codebuild-runner'
           path: 'testing-action'
 
+      # wrap aws secrets
 
-      #- name: Masking
+      #- name: Masking Inline
+      #  id: mask-inline
       #  run: |
       #    IFS="," read -a var <<< "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_2 }}"
       #    for x in "${var[@]}"; do
       #      echo "::add-mask::$x"
       #    done
+      # OR
+      #- name: Masking via Custom Action
+      #  id: mask-custom-action
+      #  uses: ./testing-action/.github/actions/mask_secrets
+      #  with:
+      #    secrets: "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_3 }}"
 
-      # wrap aws secrets
-      - name: Secret Masking
+
+      - name: Masking via Custom Action
+        id: mask-custom-action
         uses: ./testing-action/.github/actions/mask_secrets
         with:
-          secrets: "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_3 }}"
+          secrets: |
+            TEST_SECRET_1, cfpb/team/regtech/gha-codebuild-runner/test-secret-1
+            TEST_SECRET_2, cfpb/team/regtech/gha-codebuild-runner/test-secret-2
+            TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
+
 
       - name: check aws secrets
         id: check-aws-secrets
