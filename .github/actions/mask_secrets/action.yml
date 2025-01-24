@@ -21,6 +21,6 @@ runs:
           echo -e "INPUT == ${s}"
           segments=$(echo $s | tr "," "\n")
           echo -e "KEY == ${segments[0]}"
-          echo "::add-mask::${segments[0]}"
+          echo "::add-mask::$segments[0]"
         done
       shell: bash
