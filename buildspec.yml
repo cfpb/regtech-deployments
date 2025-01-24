@@ -10,8 +10,8 @@ env:
     SMTP_HOST: "${SMTP_CREDS_SECRET}:smtp_server"
     SMTP_USERNAME: "${SMTP_CREDS_SECRET}:username"
     TEST_SECRET_1: "cfpb/team/regtech/gha-codebuild-runner/test-secret-1:aa"
-    TEST_SECRET_2: "cfpb/team/regtech/gha-codebuild-runner/test-secret-1:bb"
-    TEST_SECRET_3: "cfpb/team/regtech/gha-codebuild-runner/test-secret-1:cc"
+    TEST_SECRET_2: "cfpb/team/regtech/gha-codebuild-runner/test-secret-2:bb"
+    TEST_SECRET_3: "cfpb/team/regtech/gha-codebuild-runner/test-secret-3:cc"
 phases:
   install:
     commands:
