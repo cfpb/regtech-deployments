@@ -15,7 +15,6 @@ env:
 phases:
   install:
     commands:
-      - codebuild-init
       - kubectl version --client=true --output yaml
   pre_build:
     commands:
