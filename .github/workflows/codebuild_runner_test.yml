@@ -67,11 +67,18 @@ jobs:
           ref: 'test/gha-codebuild-runner'
           path: 'testing-action'
 
+
+      - name: Masking
+        run: |
+          IFS="," read -a var <<< "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }}"
+          for x in "${var[@]}"; do
+            echo "::add-mask::${{ x }}"
+          done
       # wrap aws secrets
-      - name: Secret Masking
-        uses: ./testing-action/.github/actions/mask_secrets
-        with:
-          secrets: ${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_1 }}
+      #- name: Secret Masking
+      #  uses: ./testing-action/.github/actions/mask_secrets
+      #  with:
+      #    secrets: ${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_1 }}
 
       - name: check aws secrets
         id: check-aws-secrets
