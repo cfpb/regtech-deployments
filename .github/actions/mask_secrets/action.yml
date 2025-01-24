@@ -9,6 +9,7 @@ runs:
   steps:
     - name: Masking
       run: |
+        IFS=","
         while read -r line
         do
           echo "::add-mask::${line}"
