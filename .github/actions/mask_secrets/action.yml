@@ -9,11 +9,10 @@ runs:
   steps:
     - name: Masking
       run: |
-        IFS=","
-        while read -r line
-        do
-          echo "::add-mask::${line}"
-        done <<< "${{ inputs.secrets }}"
+        IFS="," read -a var <<< "${{ inputs.secrets }}"
+        for x in "${var[@]}"; do
+          echo "::add-mask::${x}"
+        done
       shell: bash
 #    - name: Masking
 #      run: |
