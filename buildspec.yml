@@ -27,5 +27,7 @@ phases:
       - env | sort
   post_build:
     commands:
-      - docker build -t $REGISTRY_IMAGE_NAME -f "images/Dockerfile-nginx-alpine" .
-      - docker push $REGISTRY_IMAGE_NAME
+      - pwd
+      - ls -alt ../
+      #- docker build -t $REGISTRY_IMAGE_NAME -f "images/Dockerfile-nginx-alpine" .
+      #- docker push $REGISTRY_IMAGE_NAME
