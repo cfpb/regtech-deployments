@@ -24,3 +24,15 @@ runs:
           echo -e "::add-mask::${val}"
         done
       shell: bash
+
+    - name: check aws secrets from inside custom action
+      id: check-aws-secrets-inside
+      run: |
+        echo -e "show test-secret-1 ${{ env.TEST_SECRET_1 }}"
+        echo -e "show test-secret-2 ${{ env.TEST_SECRET_2 }}"
+        echo -e "show test-secret-3 ${{ env.TEST_SECRET_3 }}"
+
+    - name: Dump
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
