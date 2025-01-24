@@ -1,0 +1,22 @@
+name: GHACodebuildBuildspecOverride
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test1:
+    env:
+    runs-on:
+      - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
+      - buildspec-override:true
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
