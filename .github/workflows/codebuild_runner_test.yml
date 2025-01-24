@@ -72,7 +72,7 @@ jobs:
         run: |
           IFS="," read -a var <<< "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }}"
           for x in "${var[@]}"; do
-            echo "::add-mask::${{ x }}"
+            echo "::add-mask::$x"
           done
       # wrap aws secrets
       #- name: Secret Masking
