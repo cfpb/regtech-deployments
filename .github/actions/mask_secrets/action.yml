@@ -11,10 +11,6 @@ runs:
       run: |
         IFS="," read -a var <<< "${{ inputs.secrets }}"
         for x in "${var[@]}"; do
-          echo "::add-mask::${x}"
+          echo "::add-mask::$x"
         done
       shell: bash
-#    - name: Masking
-#      run: |
-#        echo "::add-mask::${{ inputs.secrets }}"
-#      shell: bash

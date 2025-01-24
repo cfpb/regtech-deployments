@@ -68,25 +68,23 @@ jobs:
           path: 'testing-action'
 
 
-      - name: Masking
-        run: |
-          IFS="," read -a var <<< "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }}"
-          for x in "${var[@]}"; do
-            echo "::add-mask::$x"
-          done
+      #- name: Masking
+      #  run: |
+      #    IFS="," read -a var <<< "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_2 }}"
+      #    for x in "${var[@]}"; do
+      #      echo "::add-mask::$x"
+      #    done
+
       # wrap aws secrets
-      #- name: Secret Masking
-      #  uses: ./testing-action/.github/actions/mask_secrets
-      #  with:
-      #    secrets: ${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_1 }}
+      - name: Secret Masking
+        uses: ./testing-action/.github/actions/mask_secrets
+        with:
+          secrets: "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_3 }}"
 
       - name: check aws secrets
         id: check-aws-secrets
         # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#example-masking-a-string
         run: |
-          #echo -e "::add-mask::${{ env.TEST_SECRET_1 }} <- registering test-secret-1 with add mask"
-          #echo -e "::add-mask::${{ env.TEST_SECRET_2 }} <- registering test-secret-2 with add mask"
-          #echo -e "::add-mask::${{ env.TEST_SECRET_3 }} <- registering test-secret-3 with add mask"
           echo -e "show test-secret-1 ${{ env.TEST_SECRET_1 }}"
           echo -e "show test-secret-2 ${{ env.TEST_SECRET_2 }}"
           echo -e "show test-secret-3 ${{ env.TEST_SECRET_3 }}"
