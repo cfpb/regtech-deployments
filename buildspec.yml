@@ -21,9 +21,12 @@ phases:
       - echo "TEST_SECRET_1 = ${TEST_SECRET_1}"
       - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
       - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
-      - export IMAGE_NAME="regtech/sbl/nginx-alpine-test"
-      - export IMAGE_TAG="codebuild"
-      - export REGISTRY_IMAGE_NAME="ghcr.io/cfpb/${IMAGE_NAME}:${IMAGE_TAG}"
+      - export IMAGE_NAME="cfpb/${TEAM_NAMESPACE}/regtech-gha-codebuild-test"
+      - export IMAGE_TAG=$CODEBUILD_BUILD_NUMBER
+      - export REGISTRY_IMAGE_NAME="${ECR_ACCOUNT_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+      #- export IMAGE_NAME="regtech/sbl/nginx-alpine-test"
+      #- export IMAGE_TAG="codebuild"
+      #- export GITHUB_IMAGE_NAME="ghcr.io/cfpb/${IMAGE_NAME}:${IMAGE_TAG}"
       - env | sort
   post_build:
     commands:
