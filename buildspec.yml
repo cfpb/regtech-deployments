@@ -29,6 +29,6 @@ phases:
     commands:
       - pwd
       - ls -alt ../
-      git clone https://github.com/cfpb/regtech-deployments.git 
+      - git clone https://github.com/cfpb/regtech-deployments.git 
       #- docker build -t $REGISTRY_IMAGE_NAME -f "images/Dockerfile-nginx-alpine" .
       #- docker push $REGISTRY_IMAGE_NAME
