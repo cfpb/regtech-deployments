@@ -89,9 +89,9 @@ jobs:
         uses: ./testing-action/.github/actions/mask_secrets
         with:
           secrets: |
-            TEST_SECRET_1,cfpb/team/regtech/gha-codebuild-runner/test-secret-1#
-            TEST_SECRET_2,cfpb/team/regtech/gha-codebuild-runner/test-secret-2#
-            TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8#
+            TEST_SECRET_1,cfpb/team/regtech/gha-codebuild-runner/test-secret-1
+            TEST_SECRET_2,cfpb/team/regtech/gha-codebuild-runner/test-secret-2
+            TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
 
 
       - name: check aws secrets

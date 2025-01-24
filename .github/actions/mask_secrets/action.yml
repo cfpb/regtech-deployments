@@ -11,11 +11,11 @@ runs:
       id: secure-aws-secret
       uses: aws-actions/aws-secretsmanager-get-secrets@v2
       with:
-        secret-ids: $(echo ${{ inputs.secrets }} | tr -d '#')
+        secret-ids: ${{ inputs.secrets }}
 
     - name: Masking
       run: |
-        MODIFIED_INPUT=$(echo ${{ inputs.secrets }} | tr -d ' ') 
+        MODIFIED_INPUT=$(echo "${{ inputs.secrets }}" | tr '\n' '#')
         IFS='#' read -a secrets <<< "$MODIFIED_INPUT"
         for s in "${secrets[@]}"; do
           echo -e "INPUT == ${s}"
