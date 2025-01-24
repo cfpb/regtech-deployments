@@ -1,5 +1,5 @@
-name: 'Mask Secrets'
-description: 'Masking AWS Secrets'
+name: 'Mask Secrets Bulk'
+description: 'Masking AWS Secrets in bulk'
 inputs:
   secrets:
     description: 'string of secrets to get separated by EOL'
