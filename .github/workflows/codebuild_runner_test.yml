@@ -11,7 +11,7 @@ jobs:
       CLOUDWATCH_LOGSTREAM_NAME: ${{ github.repository }}-${{ github.workflow }}-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
     runs-on:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
-      - buildspec-override:true
+      #- buildspec-override:true
      steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
