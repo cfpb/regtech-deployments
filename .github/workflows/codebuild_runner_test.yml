@@ -69,7 +69,7 @@ jobs:
 
       - name: checkout output
         run: |
-          echo -e "${{ steps.get-aws-secret.outputs.secret-ids }}
+          echo -e "${{ steps.get-aws-secret.outputs.secret-ids }}"
 
       # wrap aws secrets
       - name: Secret Masking
