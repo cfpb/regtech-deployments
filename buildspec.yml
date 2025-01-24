@@ -21,7 +21,7 @@ phases:
       - echo "TEST_SECRET_1 = ${TEST_SECRET_1}"
       - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
       - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
-      - export IMAGE_NAME="regtech/sbl/nginx-alpine-TEST"
+      - export IMAGE_NAME="regtech/sbl/nginx-alpine-test"
       - export IMAGE_TAG="codebuild"
       - export REGISTRY_IMAGE_NAME="ghcr.io/cfpb/${IMAGE_NAME}:${IMAGE_TAG}"
       - env | sort
