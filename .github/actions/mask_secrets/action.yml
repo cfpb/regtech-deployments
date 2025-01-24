@@ -19,7 +19,7 @@ runs:
         IFS='#' read -a secrets <<< "$MODIFIED_INPUT"
         for s in "${secrets[@]}"; do
           segments=$(echo $s | tr "," "\n")
-          var="${segments[0]}"
+          var="$( echo $segments[0] | tr -d '\n')"
           echo "masking $var......."
           echo -e "::add-mask::$${var}"
         done
