@@ -11,7 +11,7 @@ runs:
       run: |
         IFS=',' read -ra secrets <<< "${{ inputs.secrets }}"
         for secret in "${secrets[@]}" ; do
-          echo "::add-mask::${secret} ... registered"
+          echo "::add-mask::$secret ... registered"
         done
       shell: bash
 #    - name: Masking
