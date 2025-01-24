@@ -15,7 +15,7 @@ runs:
 
     - name: Masking
       run: |
-        IFS="," read -a secrets <<< "${{ inputs.secrets }}"
+        IFS="\n,\r" read -a secrets <<< "${{ inputs.secrets }}"
         for s in "${secrets[@]}"; do
           segments=$(echo $s | tr "," "\n")
           echo "::add-mask::$segments[0]"
