@@ -20,8 +20,8 @@ runs:
         for s in "${secrets[@]}"; do
           var=(${s//,/ })
           val=$(eval echo \$$var)
-          echo "register mask $var =  $val"
-          echo "::add-mask::$val"
+          echo "register mask $var = $val"
+          echo "::add-mask::${val}"
         done
       shell: bash
 
