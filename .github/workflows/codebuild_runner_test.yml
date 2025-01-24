@@ -51,14 +51,14 @@ jobs:
 
           aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events file://test_events
 
-      - name: get secrets from aws
-        id: get-aws-secret
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: |
-            TEST_SECRET_1, cfpb/team/regtech/gha-codebuild-runner/test-secret-1
-            TEST_SECRET_2, cfpb/team/regtech/gha-codebuild-runner/test-secret-2
-            TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
+      #- name: get secrets from aws
+      #  id: get-aws-secret
+      #  uses: aws-actions/aws-secretsmanager-get-secrets@v2
+      #  with:
+      #    secret-ids: |
+      #      TEST_SECRET_1, cfpb/team/regtech/gha-codebuild-runner/test-secret-1
+      #      TEST_SECRET_2, cfpb/team/regtech/gha-codebuild-runner/test-secret-2
+      #      TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
 
       - name: Checkout To Path
         uses: actions/checkout@v4
