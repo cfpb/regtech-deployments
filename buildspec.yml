@@ -1,0 +1,32 @@
+version: 0.2
+
+env:
+  variables:
+    TEST_ONE: paul.bruno@cfpb.gov
+    SMTP_CREDS_SECRET: cfpb/team/regtech/smtp-ses-creds
+  secrets-manager:
+    SMTP_PASSWORD: "${SMTP_CREDS_SECRET}:password"
+    SMTP_PORT: "${SMTP_CREDS_SECRET}:smtp_port"
+    SMTP_HOST: "${SMTP_CREDS_SECRET}:smtp_server"
+    SMTP_USERNAME: "${SMTP_CREDS_SECRET}:username"
+    TEST_SECRET_1: "cfpb/team/regtech/gha-codebuild-runner/test-secret-1:aa"
+    TEST_SECRET_2: "cfpb/team/regtech/gha-codebuild-runner/test-secret-1:bb"
+    TEST_SECRET_3: "cfpb/team/regtech/gha-codebuild-runner/test-secret-1:cc"
+phases:
+  install:
+    commands:
+      - codebuild-init
+      - kubectl version --client=true --output yaml
+  pre_build:
+    commands:
+      - echo "TEST_SECRET_1 = ${TEST_SECRET_1}"
+      - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
+      - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
+      - export IMAGE_NAME="regtech/sbl/nginx-alpine-TEST"
+      - export IMAGE_TAG="codebuild"
+      - export REGISTRY_IMAGE_NAME="ghcr.io/cfpb/${IMAGE_NAME}:${IMAGE_TAG}"
+      - env | sort
+  post_build:
+    commands:
+      - docker build -t $REGISTRY_IMAGE_NAME -f images/Dockerfile-nginx-alpine
+      - docker push $REGISTRY_IMAGE_NAME
