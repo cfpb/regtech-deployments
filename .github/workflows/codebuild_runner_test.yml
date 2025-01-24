@@ -75,7 +75,9 @@ jobs:
       - name: Secret Masking
         uses: ./testing-action/.github/actions/mask_secrets
         with:
-          secrets: "${{ env.TEST_SECRET_1 }}"
+          secrets: |
+            ${{ env.TEST_SECRET_1 }}
+            ${{ env.TEST_SECRET_1 }}
 
       - name: check aws secrets
         id: check-aws-secrets
