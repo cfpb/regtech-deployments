@@ -6,7 +6,6 @@ on:
 
 jobs:
   test1:
-    env:
     runs-on:
       - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
       - buildspec-override:true
