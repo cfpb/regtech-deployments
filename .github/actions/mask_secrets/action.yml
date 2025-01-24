@@ -11,6 +11,6 @@ runs:
       run: |
         IFS="," read -a var <<< "${{ inputs.secrets }}"
         for x in "${var[@]}"; do
-          echo "::add-mask::$x"
+          echo "::add-mask::${{ env[$x] }}"
         done
       shell: bash
