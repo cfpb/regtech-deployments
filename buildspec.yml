@@ -29,5 +29,7 @@ phases:
     commands:
       - pwd
       - ls -alt ../
+      - ls -alt ../../
+      - ls -alt ../../../
       #- docker build -t $REGISTRY_IMAGE_NAME -f "images/Dockerfile-nginx-alpine" .
       #- docker push $REGISTRY_IMAGE_NAME
