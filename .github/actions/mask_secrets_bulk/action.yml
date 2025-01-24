@@ -21,8 +21,7 @@ runs:
           var=(${s//,/ })
           val=$(eval echo \$$var)
           echo "register mask $var =  $val"
-          #echo -e "::add-mask::${val}"
-          echo -e "::add-mask::${{ vars[var] }}"
+          echo -e "::add-mask::${val}"
         done
       shell: bash
 
