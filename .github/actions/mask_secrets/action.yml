@@ -20,6 +20,6 @@ runs:
         for s in "${secrets[@]}"; do
           var=(${s//,/ })
           echo "masking ${var[0]}......."
-          echo -e "::add-mask::${var[0]}"
+          echo -e "::add-mask::$(eval echo \$$var[0])"
         done
       shell: bash
