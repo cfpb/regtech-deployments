@@ -34,4 +34,7 @@ phases:
       - ls -alt ../
       - git clone https://github.com/cfpb/regtech-deployments.git 
       - docker build -t $REGISTRY_IMAGE_NAME -f "regtech-deployments/images/Dockerfile-nginx-alpine" .
-      - docker push $REGISTRY_IMAGE_NAME
+      # push fails to ecr. needs creds. 
+      # push also fails to ghcr, get token doesn't work error.
+      #- docker push $REGISTRY_IMAGE_NAME
+      - aws sts get-caller-identity
