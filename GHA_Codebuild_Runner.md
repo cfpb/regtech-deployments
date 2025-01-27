@@ -43,6 +43,10 @@ This section outlines the configurations made in Github to implement the testing
 The PAT needs to be configured with some required options. [Here](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens-github.html) is a reference. 
 - Created a test `buildspec.yml` in `regtech-deployments`
     - tested ECR access, Github Container Registry Access and some other basic things
+- Created multiple GHA workflows to test basic actions
+    - AWS Secrets reading and masking
+    - AWS cli commands
+    - Custom Composite Actions
 
 ---
 
