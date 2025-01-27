@@ -39,3 +39,4 @@ phases:
       # push also fails to ghcr, get token doesn't work error.
       #- docker push $REGISTRY_IMAGE_NAME
       - aws sts get-caller-identity
+      - aws ecr list-images --repository-name cfpb/regtech/sbl-filing-api
