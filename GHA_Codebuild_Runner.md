@@ -87,7 +87,7 @@ There is no apparent issues with Github Secrets being seen from the Codebuild pr
 ***Logs on the Codebuild side do not include any of the log output from the Github action workflow run.***
 
 However.....
-Since the Github Workflow runner is not running in the context of an AWS Role, there is the capability for secrets to be pulled out of SecretsManager vi a Github Action workflow. ***THESE SECRETS ARE NOT MASKED BY DEFAULT!***
+Since the Github Workflow runner is running in the context of an AWS Role, there is the capability for secrets to be pulled out of SecretsManager vi a Github Action workflow. ***THESE SECRETS ARE NOT MASKED BY DEFAULT!***
 
 The good thing is that we do not need to setup and establish AWS credentials in the Github action workflow since it's running with a runner in the context of a role that will determine what AWS services and permissions are allowed from the GHA workflow.
 
