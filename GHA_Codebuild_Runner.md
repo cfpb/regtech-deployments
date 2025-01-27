@@ -95,7 +95,7 @@ For testing, we used the `aws-actions/aws-secretsmanager-get-secrets@v2` action 
 The [plugin](https://github.com/aws-actions/aws-secretsmanager-get-secrets) is referenced in the [AWS documentation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets_github.html) for managing secrets from GHA workflows.
 
 With the plugin, we can simply specify the AWS Secrets we would like to retreive. The Action automatically creates these secrets and the values as environment variables adding them to the github env context. They are in `plain-text`.
-There is a method provided by GHA to mask these. It's an odd filter mechanism, `::add-mask::`, that needs to be passed to shell echo IMMEDIATLEY after the secret is retreived in order to prevent secrets values from leaking and appearing in the Girhub workflow run log output.
+There is a method provided by GHA to mask these. It's an odd filter mechanism, `::add-mask::`, that needs to be passed to shell echo IMMEDIATLEY after the secret is retreived in order to prevent secrets values from leaking and appearing in the Github workflow run log output.
 
 The process requires 2 build steps. One to get the secrets and another to pass it to `::add-mask::`.
 ```
@@ -111,7 +111,7 @@ The process requires 2 build steps. One to get the secrets and another to pass i
 
 From the point where you ***mask*** the secret through the rest of the workflow job, the secret will be masked. 
 
-IF we are getting many secrets, we can pass in the `secret-ids` list easily. But, we will need to write a function to iterate over all the retreived secrets and assure each one is passed to `::add-mask:;`. 
+If we are getting many secrets, we can pass in the `secret-ids` list easily. But, we will need to write a function to iterate over all the retreived secrets and assure each one is passed to `::add-mask:;`. 
 It's not a very user-freindly or smart way to handle secrets. The Action plugin, should just mask them automatically!
 
 We did extensive testing around this to determine the best way this could be used. Not much options. We tried wrapping both the get and the masking build steps into a Custom Composite Action, but that doesn't make the process anymore easy or secure.
@@ -149,7 +149,7 @@ This token allows for the AWS to Github webhooks. So the token must have the rep
 This token does ***NOT*** grant Codebuild runner (or the IAM role) access to Github Container Registry.
 We also noticed that a GHA workflow that is authenticated to GHCR by way of doing a Login in the workflow, does not persist on the Codebuild side when executing a `buildspec.yml` passed in as override.
 
-The `buildspec.yml` runs ion the context of the Codebuild project Service Role, but access to the Github Container Registry from within the `buildspec.yml` is not allowed by default even when the Github Action workflow that is passing in the `buildspec.yml` has authenticated to the GHCR.
+The `buildspec.yml` runs in the context of the Codebuild project Service Role, but access to the Github Container Registry from within the `buildspec.yml` is not allowed by default even when the Github Action workflow that is passing in the `buildspec.yml` has authenticated to the GHCR.
 This was a little unexpected.
 
 If there is a use case for us to build and perform other tasks on an image that will be published to Github Container Registry, we will still need to authenticate to GHCR from within the `buildspec.yml` code.
@@ -159,6 +159,6 @@ If there is a use case for us to build and perform other tasks on an image that 
 ### Misc
 
 For passing `Github Action` variables to `Codebuild`, you can use the `env-vars-for-codebuild` option in the [AWS Codebuild Marketplace Action](https://github.com/marketplace/actions/aws-codebuild-run-build-action-for-github-actions#aws-codebuild-run-build-for-github-actions) for Github Actions.
-This Marketplace Action also provides auto-triggering Codebuild from Github pull requests, mergers etc...
+This Marketplace Action also provides auto-triggering Codebuild project without using codebuild runners from Github pull requests, mergers etc...
 
 
