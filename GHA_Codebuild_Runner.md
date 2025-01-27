@@ -42,6 +42,8 @@ This section outlines the configurations made in Github to implement the testing
 - Prerequisite for creating a Codebuild project using Github as the source was to have a Personal Access Token (PAT) configured in the Github account. I used my github account `thetoolsmith` which is configured in the CFPB Github Org.
 The PAT needs to be configured with some required options. [Here](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens-github.html) is a reference. 
 - Created a test `buildspec.yml` in `regtech-deployments`
+    - buildspec overriding in the codebuild runner project
+    - passing github context into codebuild via buildspec
     - tested ECR access, Github Container Registry Access and some other basic things
 - Created multiple GHA workflows to test basic actions
     - AWS Secrets reading and masking
