@@ -17,8 +17,14 @@ All testing and evaluation was done in the `regtech/devpub` IAM account.
 ### AWS Setup
 This section outlines the configurations made in the AWS console to implement the testing that was performed.
 
-1. Create new Codebuild Project. [Referenced](https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html)
-
+- Create new Codebuild Project `cfpb-regtech-gha-test-1`. [Referenced](https://docs.aws.amazon.com/codebuild/latest/userguide/action-runner.html)
+    - Create github PAT for AWS webhook and codebuild credential (github account)
+    - Create new Service Role for codebuild project `cfpb-dev-regtech-codebuild-gha-test`
+    - Create new SecretsManager Secret for PAT `cfpb/team/regtech/gha-codebuild-runner-test` 
+- Create Custom inline policy for the role `RegtechCodeBuildGHARunner`.
+    - this policy was started from the builtin `AWSCodeBuildDeveloperAccess` policy and upadated as needed.
+- Create Cloudformation log group
+- 
 
 ### Github Setup
 This section outlines the configurations made in Github to implement the testing that was performed.
@@ -30,7 +36,18 @@ The PAT needs to be configured with some required options. [Here](https://docs.a
 1. Created a test `buildspec.yml` in `regtech-deployments`
 
 ### Log Output Codebuild vs Github
+Each side of this itegration keep its own logs. Neither Github Action or Codebuild logs are exposed on the other end.
+This is a good thing.
 
+All actions taken in GHA workflow, including reading secrets from AWS, are logged only to the GHA output. Nothing shows on the Cloudformation logs.
+Example from GHA workflow kicking off the Codebuild Runner.....
+```
+> 2025-01-17T21:14:03.906Z
+> 2025-01-17 21:14:01Z: Running job: test1
+> 2025-01-17 21:14:01Z: Running job: test1
+> 2025-01-17T21:14:21.926Z
+> 2025-01-17 21:14:21Z: Job test1 completed with result: Succeeded
+```
 
 ### Testing Secrets and Masking in Github Workflow
 Github Secrets are automatically transformed into environment variable and automatically masked. This is the default behavior in Github Actions for Github Secrets.
