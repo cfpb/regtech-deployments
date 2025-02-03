@@ -15,6 +15,7 @@ env:
 phases:
   install:
     commands:
+      - codebuild-init
       - kubectl version --client=true --output yaml
   pre_build:
     commands:
@@ -23,20 +24,19 @@ phases:
       - echo "TEST_SECRET_2 = ${TEST_SECRET_2}"
       - export IMAGE_NAME="cfpb/regtech/regtech-gha-codebuild-test"
       - export IMAGE_TAG=$CODEBUILD_BUILD_NUMBER
-      #- export REGISTRY_IMAGE_NAME="${ECR_ACCOUNT_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-      - export REGISTRY_IMAGE_NAME="${IMAGE_NAME}:${IMAGE_TAG}"
-      #- export IMAGE_NAME="regtech/sbl/nginx-alpine-test"
-      #- export IMAGE_TAG="codebuild"
+      - export REGISTRY_IMAGE_NAME="${ECR_ACCOUNT_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
       #- export GITHUB_IMAGE_NAME="ghcr.io/cfpb/${IMAGE_NAME}:${IMAGE_TAG}"
       - env | sort
   post_build:
     commands:
       - pwd
       - ls -alt ../
-      - git clone https://github.com/cfpb/regtech-deployments.git 
-      - docker build -t $REGISTRY_IMAGE_NAME -f "regtech-deployments/images/Dockerfile-alpine" .
+      - docker pull docker pull ghcr.io/cfpb/regtech/sbl/python-ubi8:latest
+      - docker tag ghcr.io/cfpb/regtech/sbl/python-ubi8:latest $REGISTRY_IMAGE_NAME
+      #- git clone https://github.com/cfpb/regtech-deployments.git 
+      #- docker build -t $REGISTRY_IMAGE_NAME -f "regtech-deployments/images/Dockerfile-alpine" .
       # push fails to ecr. needs creds. 
       # push also fails to ghcr, get token doesn't work error.
       #- docker push $REGISTRY_IMAGE_NAME
-      - aws sts get-caller-identity
-      - aws ecr list-images --repository-name cfpb/regtech/sbl-filing-api
+      #- aws sts get-caller-identity
+      #- aws ecr list-images --repository-name cfpb/regtech/sbl-filing-api
