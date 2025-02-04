@@ -31,7 +31,7 @@ phases:
     commands:
       - pwd
       - ls -alt ../
-      - docker pull docker pull ghcr.io/cfpb/regtech/sbl/python-ubi8:latest
+      - docker pull ghcr.io/cfpb/regtech/sbl/python-ubi8:latest
       - docker tag ghcr.io/cfpb/regtech/sbl/python-ubi8:latest $REGISTRY_IMAGE_NAME
       #- git clone https://github.com/cfpb/regtech-deployments.git 
       #- docker build -t $REGISTRY_IMAGE_NAME -f "regtech-deployments/images/Dockerfile-alpine" .
