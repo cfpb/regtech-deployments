@@ -1,0 +1,84 @@
+name: GHACodebuildRunnerTest
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test1:
+    env:
+      CLOUDWATCH_LOGGROUP_NAME: '/aws/codebuild/cfpb-regtech-gha-test-1'
+      CLOUDWATCH_LOGSTREAM_NAME: ${{ github.repository }}-${{ github.workflow }}-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
+    runs-on:
+      - codebuild-cfpb-regtech-gha-test-1-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+
+      - name: echo
+        run: |
+          echo "trigger pr"
+          echo -e "running GHA workflow ${{ github.event.number }}\nbuild: ${{ github.run_id }}\nattempt: ${{ github.run_attempt }}"
+      - name: create log stream
+        run: |
+          aws logs create-log-stream --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME
+      - name: list buckets
+        run: |
+          aws s3api list-buckets --region us-east-1 --output json
+      - name: put events
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          export CURRENT_EVENT_TIME=$(date +%s%3N)
+          cat > test_events << EOF
+          [
+            {
+              "timestamp": $CURRENT_EVENT_TIME,
+              "message": "Example Event 1"
+            },
+            {
+              "timestamp": $CURRENT_EVENT_TIME,
+              "message": "Example Event 2"
+            },
+            {
+              "timestamp": $CURRENT_EVENT_TIME,
+              "message": "Example Event 3"
+            }
+          ]
+          EOF
+          aws logs put-log-events --log-group-name $CLOUDWATCH_LOGGROUP_NAME --log-stream-name $CLOUDWATCH_LOGSTREAM_NAME --log-events file://test_events
+      - name: get secrets from aws
+        id: get-aws-secret
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            TEST_SECRET_1, cfpb/team/regtech/gha-codebuild-runner/test-secret-1
+            TEST_SECRET_2, cfpb/team/regtech/gha-codebuild-runner/test-secret-2
+            TEST_SECRET_3,arn:aws:secretsmanager:us-east-1:099248080076:secret:cfpb/team/regtech/gha-codebuild-runner/test-secret-3-9lVad8
+      - name: Checkout To Path
+        uses: actions/checkout@v4
+        with:
+          repository: 'cfpb/regtech-deployments'
+          ref: 'test/gha-codebuild-runner'
+          path: 'testing-action'
+
+
+      #- name: Secret Masking Inline
+      #  run: |
+      #    IFS="," read -a var <<< "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_2 }}"
+      #    for x in "${var[@]}"; do
+      #      echo "::add-mask::$x"
+      #    done
+
+      - name: Secret Masking via Custom Action
+        uses: ./testing-action/.github/actions/mask_secrets
+        with:
+          secrets: "${{ env.TEST_SECRET_1 }},${{ env.TEST_SECRET_2 }},${{ env.TEST_SECRET_3 }}"
+
+      - name: check aws secrets
+        id: check-aws-secrets
+        # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#example-masking-a-string
+        run: |
+          echo -e "show test-secret-1 ${{ env.TEST_SECRET_1 }}"
+          echo -e "show test-secret-2 ${{ env.TEST_SECRET_2 }}"
+          echo -e "show test-secret-3 ${{ env.TEST_SECRET_3 }}"
