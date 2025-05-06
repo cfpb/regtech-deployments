@@ -52,13 +52,13 @@ RUN delgroup mail mail &>/dev/null && \
 RUN sed -i '1d' /etc/passwd && \
     sed -i '1 i\root:x:0:0:root:/root:/bin/nologin' /etc/passwd 
 
-RUN apk update && \
-    apk upgrade
-
 SHELL ["/bin/sh", "-o", "pipefail", "-c"]
  
 RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/main" > /etc/apk/repositories && \
     echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/community" >> /etc/apk/repositories 
+
+RUN apk update && \
+    apk upgrade
 
 RUN rm -fr /var/spool/cron /etc/crontabs /etc/periodic 
  
