@@ -54,8 +54,11 @@ RUN sed -i '1d' /etc/passwd && \
 
 SHELL ["/bin/sh", "-o", "pipefail", "-c"]
  
-RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/main" > /etc/apk/repositories && \
-    echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/community" >> /etc/apk/repositories 
+# RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/main" > /etc/apk/repositories && \
+#     echo -e "https://alpine.global.ssl.fastly.net/alpine/v$(cut -d . -f 1,2 < /etc/alpine-release)/community" >> /etc/apk/repositories 
+ 
+RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/edge/main" > /etc/apk/repositories && \
+    echo -e "https://alpine.global.ssl.fastly.net/alpine/edge/community" >> /etc/apk/repositories 
 
 RUN apk update && \
     apk upgrade
