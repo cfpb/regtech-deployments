@@ -63,6 +63,9 @@ RUN echo -e "https://alpine.global.ssl.fastly.net/alpine/edge/main" > /etc/apk/r
 RUN apk update && \
     apk upgrade
 
+RUN apk update && \
+    apk upgrade
+
 RUN rm -fr /var/spool/cron /etc/crontabs /etc/periodic 
  
 RUN find /sbin /usr/sbin \
